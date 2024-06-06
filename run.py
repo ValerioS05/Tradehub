@@ -19,8 +19,14 @@ data = tech.get_all_values()
 
 
 def identify_user():
-    user_name = input("Welcome to TradeHub, please enter a username to start: ")
-    return usern_name
+    while True:
+        user_name = input("Welcome to TradeHub, please enter a username to start: ")
+        if user_name.strip() and user_name.isalpha():
+            return user_name
+        elif not user_name.strip():
+            print("You must enter a username.")
+        else:
+            print("Invalid username! Please enter a username containing only letters.")
 
 
 def get_categories():
@@ -31,8 +37,10 @@ def get_categories():
     category_names = [worksheet.title for worksheet in worksheet_objects if worksheet.title != "Basket"]
     return category_names
 
-def choose_category():
-    pass
+#def choose_category():
+    #while True:
+        #user_choise = input("Choose a category by entering its number: ")
+        #try:
 
 
 
@@ -58,4 +66,10 @@ def purchase():
 
 
 def main():
-    pass
+    user_name = identify_user()
+    print(f"Hey {user_name} Choose the category that you want to browse inserting the relative number")
+    categories = get_categories()
+    for index, category in enumerate(categories,start=1):
+        print(f"{index}: {category}")
+
+main()
