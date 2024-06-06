@@ -31,9 +31,6 @@ def get_categories():
     category_names = [worksheet.title for worksheet in worksheet_objects if worksheet.title != "Basket"]
     return category_names
 
-
-# Call the test_get_categories function to test the get_categories function
-test_get_categories()
 def choose_category():
     pass
 
