@@ -37,10 +37,17 @@ def get_categories():
     category_names = [worksheet.title for worksheet in worksheet_objects if worksheet.title != "Basket"]
     return category_names
 
-#def choose_category():
-    #while True:
-        #user_choise = input("Choose a category by entering its number: ")
-        #try:
+def choose_category(categories):
+    while True:
+        user_choice = input("Choose a category by entering its number: ")
+        try:
+            choice_i = int(user_choice) -1
+            if 0 <= choice_i < len(categories):
+                return categories[choice_i]
+            else:
+                print("Invalid choice. Please enter a valid number")
+        except ValueError:
+            print("Invalid input, plese enter a number")
 
 
 
@@ -71,5 +78,7 @@ def main():
     categories = get_categories()
     for index, category in enumerate(categories,start=1):
         print(f"{index}: {category}")
-
+    
+    choosen_category = choose_category(categories)
+    print(f"This is our stock for {choosen_category}:")
 main()
