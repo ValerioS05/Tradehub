@@ -86,15 +86,34 @@ def choose_item(category):
 
 
 
-def add_to_basket():
-    pass
+def add_to_basket(basket, item):
+    basket.append(item)
+    print(f"{item[0]} added to basket.")
+    
 
 
+def purchase(basket):
+    if not basket:
+        print("Your basket is empty!")
+    else:
+        print("You jave purchase the following items:")
+        basket_sheet = SHEET.worksheet("Basket")
 
+        total_price = 0
 
+        next_row = len(basket_sheet.col_values(1)) + 1
+        basket_sheet.update_cell(next_row, 1, user_name)
+        start_row = 4
+        for i, item in enumerate(basket, start = start_row):
+            basket_sheet.update_cell(i, 1 , item[0])
+            basket_sheet.update_cell(i, 2 , f"£{item[1]}")
+            total_price += float(item[1])
 
-def purchase():
-    pass
+        total_row = start_row + len(basket)
+        basket_sheet.update_cell(total_row,1,"Total Price")
+        basket_sheet.update_cell(total_row,2,f"£{total_price:.2f}")
+        print(f"Total price: £{total_price:.2f}")
+        print("Thank you!")
 
 
 
@@ -102,13 +121,17 @@ def purchase():
 def main():
     user_name = identify_user()
     print(f"Hey {user_name} Choose the category that you want to browse inserting the relative number")
-    categories = get_categories()
-    for index, category in enumerate(categories,start=1):
-        print(f"{index}: {category}")
+    basket = []
     
-    choosen_category = choose_category(categories)
-    print(f"This is our stock for {choosen_category}:")
+    while True:
+        categories = get_categories()
+        for index, category in enumerate(categories,start=1):
+            print(f"{index}: {category}")
+    
+        choosen_category = choose_category(categories)
+        print(f"This is our stock for {choosen_category}:")
 
-    chosen_item = choose_item(choosen_category)
-
+        chosen_item = choose_item(choosen_category)
+        if chosen_item:
+            add_to_basket(basket,chosen_item)
 main()
