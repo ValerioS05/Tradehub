@@ -1,3 +1,41 @@
-# Your code goes here.
-# You can delete these comments, but do not change the name of this file
-# Write your code to expect a terminal of 80 characters wide and 24 rows high
+import gspread
+
+def identify_user():
+    user_name = input("Welcome to TradeHub, please enter a username to start: ")
+    return usern_name
+
+
+def get_categories():
+    pass
+
+
+
+
+def choose_category():
+    pass
+
+
+
+
+def choose_item():
+    pass
+
+
+
+
+
+def add_to_basket():
+    pass
+
+
+
+
+
+def purchase():
+    pass
+
+
+
+
+def main():
+    pass
