@@ -19,6 +19,9 @@ data = tech.get_all_values()
 
 
 def identify_user():
+    """
+    Get name of the user , we will use the name for greetings and store to add name to basket
+    """
     while True:
         user_name = input("Welcome to TradeHub, please enter a username to start: ")
         if user_name.strip() and user_name.isalpha():
@@ -38,6 +41,9 @@ def get_categories():
     return category_names
 
 def choose_category(categories):
+    """
+    let the user choose a category(category = worksheets in spreadsheet)
+    """
     while True:
         user_choice = input("Choose a category by entering its number: ")
         try:
@@ -52,9 +58,30 @@ def choose_category(categories):
 
 
 
-def choose_item():
-    pass
-
+def choose_item(category):
+    """
+    user can choose items stored in the worksheets.
+    Items are printed with enumeration
+    error handling set to accept valid input
+    """
+    category_sheet = SHEET.worksheet(category)
+    items = category_sheet.get_all_values()
+    if len(items) <= 1:
+        print("No items available in this category.")
+        return
+    print("Here are the available items:")
+    for index, item in enumerate(items[1:], start=1):  
+        print(f"{index}. {item[0]} - £{item[1]}")
+    while True:
+        user_choice = input("Choose an item by entering its number: ")
+        try:
+            choice_index = int(user_choice) - 1
+            if 0 <= choice_index < len(items) - 1:
+                return items[choice_index + 1]
+            else:
+                print("Invalid choice. Please enter a valid number.")
+        except ValueError:
+            print("Invalid input. Please enter a number.")
 
 
 
@@ -81,4 +108,7 @@ def main():
     
     choosen_category = choose_category(categories)
     print(f"This is our stock for {choosen_category}:")
+
+    chosen_item = choose_item(choosen_category)
+
 main()
