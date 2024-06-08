@@ -89,38 +89,57 @@ def add_to_basket(basket, item):
     
 def update_headings():
     """
-    Update the headings of the Purchasesvale worksheet
+    Update the headings of the Purchases worksheet and calculate the starting column for the next purchase.
     """
     purchases_sheet = SHEET.worksheet("Purchases")
-    purchases_sheet.update_cell(1, 1, "Purchase")
-    purchases_sheet.update_cell(1, 2, "Order n.")
-    purchases_sheet.update_cell(3, 1, "Items")
-    purchases_sheet.update_cell(3, 2, "Price")
+    header_row = purchases_sheet.row_values(3)
+    
+    
+    if "" not in header_row:
+        next_start_column = len(header_row) * 2 + 1 
+    else:
+        last_col_index = header_row.index("")
+        next_start_column = 2 * last_col_index + 1 
+    
+    next_start_column_a1 = gspread.utils.rowcol_to_a1(1, next_start_column)
 
+  
+    return next_start_column_a1
+
+
+    
 def purchase(basket, user_name, already_used):
     if not basket:
         print("Your basket is empty!")
     else:
-        print("You have purchase the following items:")
+        print("You have purchased the following items:")
         for item in basket:
             print(f"{item[0]} - £{item[1]}")
+        
         purchases_sheet = SHEET.worksheet("Purchases")
 
-        total_price = 0
+        
+        last_column = len(purchases_sheet.row_values(1))
+        next_column = last_column + 1
 
-        next_row = len(purchases_sheet.col_values(1)) + 1
-        purchases_sheet.update_cell(2, 1, user_name)
-        start_row = 4
-        for i, item in enumerate(basket, start = start_row):
-            purchases_sheet.update_cell(i, 1 , item[0])
-            purchases_sheet.update_cell(i, 2, "£" + item[1])
+        
+        purchases_sheet.update_cell(1, next_column, user_name)
+
+        
+        total_price = 0
+        for i, item in enumerate(basket, start=0):
+            purchases_sheet.update_cell(3 + i, next_column, item[0])  
+            purchases_sheet.update_cell(3 + i, next_column + 1, "£" + item[1])  
             total_price += float(item[1])
 
-        total_row = start_row + len(basket)
-        purchases_sheet.update_cell(total_row,1,"Total Price")
-        purchases_sheet.update_cell(total_row,2,f"£{total_price:.2f}")
-        order_num = order_num = order_number(already_used)
-        purchases_sheet.update_cell(2, 2, order_num)
+        
+        purchases_sheet.update_cell(3 + len(basket), next_column, "Total Price")
+        purchases_sheet.update_cell(3 + len(basket), next_column + 1, f"£{total_price:.2f}")
+
+       
+        order_num = order_number(already_used)
+        purchases_sheet.update_cell(1, next_column + 1, order_num)
+
         print(f"Total price: £{total_price:.2f}")
         print("Thank you!")
         return order_num
@@ -139,23 +158,23 @@ def order_number(already_used):
 
 def main():
     user_name = identify_user()
-    update_headings()
+    next_start_column = update_headings()
     used_order_numbers = get_used_orders()
     order_number_result = order_number(used_order_numbers)
-    print(f"Hey {user_name} Choose the category that you want to browse inserting the relative number")
+    print(f"Hey {user_name}, choose the category that you want to browse by inserting the relative number")
     basket = []
     
     while True:
         categories = get_categories()
-        for index, category in enumerate(categories,start=1):
+        for index, category in enumerate(categories, start=1):
             print(f"{index}: {category}")
     
-        choosen_category = choose_category(categories)
+        chosen_category = choose_category(categories)
         while True:
-            print(f"This is our stock for {choosen_category}:")
-            chosen_item = choose_item(choosen_category)
+            print(f"This is our stock for {chosen_category}:")
+            chosen_item = choose_item(chosen_category)
             if chosen_item:
-                add_to_basket(basket,chosen_item)
+                add_to_basket(basket, chosen_item)
 
             print("\n1 - Continue shopping in the same category?")
             print("2 - Change category")
@@ -168,7 +187,7 @@ def main():
             elif continue_or_finish == "2":
                 break
             elif continue_or_finish == "3":
-                purchase(basket, user_name, used_order_numbers)
+                purchase(basket, user_name, used_order_numbers)  # Pass next_start_column
                 return
             else:
                 print("Invalid choice, please enter 1, 2, or 3.")
