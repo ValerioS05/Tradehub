@@ -1,4 +1,5 @@
 import gspread
+import random
 from google.oauth2.service_account import Credentials
 
 
@@ -13,10 +14,6 @@ CREDS = Credentials.from_service_account_file('creds.json')
 SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open("market_hub")
-
-tech = SHEET.worksheet("Tech")
-data = tech.get_all_values()
-
 
 def identify_user():
     """
@@ -90,38 +87,61 @@ def add_to_basket(basket, item):
     basket.append(item)
     print(f"{item[0]} added to basket.")
     
+def update_headings():
+    """
+    Update the headings of the Purchasesvale worksheet
+    """
+    purchases_sheet = SHEET.worksheet("Purchases")
+    purchases_sheet.update_cell(1, 1, "Purchase")
+    purchases_sheet.update_cell(1, 2, "Order n.")
+    purchases_sheet.update_cell(3, 1, "Items")
+    purchases_sheet.update_cell(3, 2, "Price")
 
-
-def purchase(basket, user_name):
+def purchase(basket, user_name, already_used):
     if not basket:
         print("Your basket is empty!")
     else:
         print("You have purchase the following items:")
         for item in basket:
             print(f"{item[0]} - £{item[1]}")
-        basket_sheet = SHEET.worksheet("Basket")
+        purchases_sheet = SHEET.worksheet("Purchases")
 
         total_price = 0
 
-        next_row = len(basket_sheet.col_values(1)) + 1
-        basket_sheet.update_cell(2, 1, user_name)
+        next_row = len(purchases_sheet.col_values(1)) + 1
+        purchases_sheet.update_cell(2, 1, user_name)
         start_row = 4
         for i, item in enumerate(basket, start = start_row):
-            basket_sheet.update_cell(i, 1 , item[0])
-            basket_sheet.update_cell(i, 2 , f"£{item[1]}")
+            purchases_sheet.update_cell(i, 1 , item[0])
+            purchases_sheet.update_cell(i, 2, "£" + item[1])
             total_price += float(item[1])
 
         total_row = start_row + len(basket)
-        basket_sheet.update_cell(total_row,1,"Total Price")
-        basket_sheet.update_cell(total_row,2,f"£{total_price:.2f}")
+        purchases_sheet.update_cell(total_row,1,"Total Price")
+        purchases_sheet.update_cell(total_row,2,f"£{total_price:.2f}")
+        order_num = order_num = order_number(already_used)
+        purchases_sheet.update_cell(2, 2, order_num)
         print(f"Total price: £{total_price:.2f}")
         print("Thank you!")
+        return order_num
 
+def get_used_orders():
+    purchases_sheet = SHEET.worksheet("Purchases")
+    order_numbers = purchases_sheet.col_values(2)[1:]
+    return set(order_numbers)
 
-
+def order_number(already_used):
+    while True:
+        order_number = str(random.randint(00000,99999))
+        if order_number not in already_used:
+            already_used.add(order_number)
+            return order_number
 
 def main():
     user_name = identify_user()
+    update_headings()
+    used_order_numbers = get_used_orders()
+    order_number_result = order_number(used_order_numbers)
     print(f"Hey {user_name} Choose the category that you want to browse inserting the relative number")
     basket = []
     
@@ -148,7 +168,7 @@ def main():
             elif continue_or_finish == "2":
                 break
             elif continue_or_finish == "3":
-                purchase(basket, user_name)
+                purchase(basket, user_name, used_order_numbers)
                 return
             else:
                 print("Invalid choice, please enter 1, 2, or 3.")
