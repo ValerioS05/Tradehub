@@ -23,7 +23,7 @@ def identify_user():
     Get name of the user , we will use the name for greetings and store to add name to basket
     """
     while True:
-        user_name = input("Welcome to TradeHub, please enter a username to start: ")
+        user_name = input("Welcome to TradeHub, please enter your name to start: ")
         if user_name.strip() and user_name.isalpha():
             return user_name
         elif not user_name.strip():
@@ -92,17 +92,19 @@ def add_to_basket(basket, item):
     
 
 
-def purchase(basket):
+def purchase(basket, user_name):
     if not basket:
         print("Your basket is empty!")
     else:
-        print("You jave purchase the following items:")
+        print("You have purchase the following items:")
+        for item in basket:
+            print(f"{item[0]} - £{item[1]}")
         basket_sheet = SHEET.worksheet("Basket")
 
         total_price = 0
 
         next_row = len(basket_sheet.col_values(1)) + 1
-        basket_sheet.update_cell(next_row, 1, user_name)
+        basket_sheet.update_cell(2, 1, user_name)
         start_row = 4
         for i, item in enumerate(basket, start = start_row):
             basket_sheet.update_cell(i, 1 , item[0])
@@ -129,9 +131,25 @@ def main():
             print(f"{index}: {category}")
     
         choosen_category = choose_category(categories)
-        print(f"This is our stock for {choosen_category}:")
+        while True:
+            print(f"This is our stock for {choosen_category}:")
+            chosen_item = choose_item(choosen_category)
+            if chosen_item:
+                add_to_basket(basket,chosen_item)
 
-        chosen_item = choose_item(choosen_category)
-        if chosen_item:
-            add_to_basket(basket,chosen_item)
+            print("\n1 - Continue shopping in the same category?")
+            print("2 - Change category")
+            print("3 - Finish purchase")
+
+            continue_or_finish = input("Insert relative number for your next step: ")
+
+            if continue_or_finish == "1":
+                continue
+            elif continue_or_finish == "2":
+                break
+            elif continue_or_finish == "3":
+                purchase(basket, user_name)
+                return
+            else:
+                print("Invalid choice, please enter 1, 2, or 3.")
 main()
