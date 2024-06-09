@@ -166,9 +166,9 @@ def display_basket(basket):
         print("Current items in your basket:")
         for index, item in enumerate(basket, start=1):
             print(f"{index}. {item[0]} - £{item[1]}")
-        
+
         while True:
-            user_choice = input("Enter the number of the item to remove or '0' to go back: ")
+            user_choice = input("Enter item number to remove, 0 to go back: ")
             try:
                 choice_index = int(user_choice) - 1
                 if user_choice == '0':
@@ -208,7 +208,7 @@ def main():
                 print("3 - Finish purchase")
                 print("4 - View basket")
 
-                continue_or_finish = input("Insert number for your next step: ")
+                continue_or_finish = input("Insert number for next step: ")
 
                 if continue_or_finish == "1":
                     continue_shopping = False
@@ -263,7 +263,7 @@ def main():
                     print("3 - Finish purchase")
                     print("4 - View basket")
 
-                    continue_or_finish = input("Insert number for your next step: ")
+                    continue_or_finish = input("Insert number to continue: ")
 
                     if continue_or_finish == "1":
                         continue_shopping = False
