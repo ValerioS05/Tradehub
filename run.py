@@ -112,41 +112,46 @@ def update_headings():
 def purchase(basket, user_name, already_used):
     if not basket:
         print("Your basket is empty!")
-    else:
-        print("You have purchased the following items:")
-        for item in basket:
-            print(f"{item[0]} - £{item[1]}")
-        purchases_sheet = SHEET.worksheet("Purchases")
-        last_column = len(purchases_sheet.row_values(1))
-        next_column = last_column + 1
-        purchases_sheet.update_cell(1, next_column, user_name)
-        total_price = 0
-        for i, item in enumerate(basket, start=0):
-            purchases_sheet.update_cell(3 + i, next_column, item[0])
-            purchases_sheet.update_cell(3 + i, next_column + 1, "£" + item[1])
-            total_price += float(item[1])
+        return None
 
-        purchases_sheet.update_cell(3 + len(basket), next_column, "Total £")
-        row = 3 + len(basket)
-        column = next_column + 1
-        total_price_formatted = f"£{total_price:.2f}"
+    print("You have purchased the following items:")
+    for item in basket:
+        print(f"{item[0]} - £{item[1]}")
 
-        purchases_sheet.update_cell(row, column, total_price_formatted)
+    purchases_sheet = SHEET.worksheet("Purchases")
+    
+    last_column = len(purchases_sheet.row_values(1))
+    next_column = last_column + 1
+    print(f"Updating purchases sheet at column {next_column}")
 
-        order_num = order_number(already_used)
-        purchases_sheet.update_cell(1, next_column + 1, order_num)
+    purchases_sheet.update_cell(1, next_column, user_name)
+    total_price = 0
+    for i, item in enumerate(basket, start=0):
+        purchases_sheet.update_cell(3 + i, next_column, item[0])
+        purchases_sheet.update_cell(3 + i, next_column + 1, "£" + item[1])
+        total_price += float(item[1])
+        print(f"Added {item[0]} - £{item[1]} to the purchases sheet")
 
-        print(f"Total price: £{total_price:.2f}")
-        print(f"Your order number: {order_num}")
-        print("Thank you!")
-        return order_num
+    purchases_sheet.update_cell(3 + len(basket), next_column, "Total £")
+    row = 3 + len(basket)
+    column = next_column + 1
+    total_price_formatted = f"£{total_price:.2f}"
+    purchases_sheet.update_cell(row, column, total_price_formatted)
+    print(f"Total price: £{total_price_formatted}")
 
+    order_num = order_number(already_used)
+    purchases_sheet.update_cell(1, next_column + 1, order_num)
+    print(f"Order number {order_num} assigned to the purchase")
+
+    print(f"Total price: £{total_price:.2f}")
+    print(f"Your order number: {order_num}")
+    print("Thank you!")
+    return order_num
 
 def get_used_orders():
     purchases_sheet = SHEET.worksheet("Purchases")
     order_numbers = purchases_sheet.col_values(2)[1:]
     return set(order_numbers)
-
 
 def order_number(already_used):
     while True:
@@ -155,10 +160,10 @@ def order_number(already_used):
             already_used.add(order_number)
             return order_number
 
-
 def display_basket(basket):
     if not basket:
         print("Your basket is empty.")
+        return
     else:
         print("Current items in your basket:")
         for index, item in enumerate(basket, start=1):
@@ -186,13 +191,14 @@ def handle_basket(basket, user_name, used_order_numbers):
         print("3 - Finish purchase")
         print("4 - View basket")
         continue_or_finish = input("Insert number for next step:\n")
+
         if continue_or_finish == "1":
-            return False
+            return False  
         elif continue_or_finish == "2":
-            return True
+            return True  
         elif continue_or_finish == "3":
-            purchase(basket, user_name, used_order_numbers)
-            return None
+            print("Attempting to finish purchase...")
+            return purchase(basket, user_name, used_order_numbers)
         elif continue_or_finish == "4":
             display_basket(basket)
         else:
@@ -214,10 +220,10 @@ def shop_in_category(chosen_category, basket, user_name, used_order_numbers):
         elif continue_or_finish == "2":
             return
         elif continue_or_finish == "3":
-            return False
+            print("Attempting to finish purchase...")
+            return purchase(basket, user_name, used_order_numbers)
         elif continue_or_finish == "4":
-            if handle_basket(basket, user_name, used_order_numbers) is None:
-                return False
+            display_basket(basket)
         else:
             print("Invalid choice, please enter 1, 2, 3, or 4.")
 
@@ -241,7 +247,9 @@ def main():
                 if 0 <= chosen_category_index < len(categories):
                     chosen_category = categories[chosen_category_index]
                     if shop_in_category(chosen_category, basket, user_name, used_order_numbers) is False:
-                        break
+                        continue
+                    else:
+                        return
                 else:
                     print("Invalid choice. Please enter a valid number.")
             except ValueError:
