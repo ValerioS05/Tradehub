@@ -1,5 +1,6 @@
 import gspread
 import random
+#import pyfiglet
 from google.oauth2.service_account import Credentials
 
 
@@ -14,6 +15,10 @@ CREDS = Credentials.from_service_account_file('creds.json')
 SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open("market_hub")
+
+def print_art(text):
+    ascii = pyfiglet.figlet_format(text)
+    print(ascii)
 
 
 def identify_user():
@@ -215,17 +220,20 @@ def shop_in_category(chosen_category, basket, user_name, used_order_numbers):
         print("3 - Finish purchase")
         print("4 - View basket")
         continue_or_finish = input("Insert number for your next step:\n")
+        
         if continue_or_finish == "1":
             continue
         elif continue_or_finish == "2":
-            return
+            break
         elif continue_or_finish == "3":
+            
             print("Attempting to finish purchase...")
             return purchase(basket, user_name, used_order_numbers)
         elif continue_or_finish == "4":
             display_basket(basket)
         else:
             print("Invalid choice, please enter 1, 2, 3, or 4.")
+    return False
 
 def main():
     user_name = identify_user()
