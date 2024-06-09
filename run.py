@@ -39,7 +39,7 @@ def get_categories():
     category_names = [
         worksheet.title
         for worksheet in worksheet_objects
-        if worksheet.title != "Basket"
+        if worksheet.title != "Purchases"
     ]
     return category_names
 
@@ -155,6 +155,19 @@ def order_number(already_used):
             return order_number
 
 
+def display_basket(basket):
+    """
+    Display the items in the basket
+    """
+    if not basket:
+        print("Your basket is empty")
+    else:
+        print("Items added in basket:")
+        for index, item in enumerate(basket, start=1):
+            
+            print(f"{index} {item[0]} - £{item[1]}")
+
+
 def main():
     user_name = identify_user()
     next_start_column = update_headings()
@@ -178,7 +191,7 @@ def main():
             print("\n1 - Continue shopping in the same category?")
             print("2 - Change category")
             print("3 - Finish purchase")
-
+            print("4 - View basket")
             continue_or_finish = input("Insert number for your next step: ")
 
             if continue_or_finish == "1":
@@ -188,8 +201,11 @@ def main():
             elif continue_or_finish == "3":
                 purchase(basket, user_name, used_order_numbers)
                 return
+            elif continue_or_finish == "4":
+                display_basket(basket)
+                continue
             else:
-                print("Invalid choice, please enter 1, 2, or 3.")
+                print("Invalid choice, please enter 1, 2, 3 or 4.")
 
 
 main()
