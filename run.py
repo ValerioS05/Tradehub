@@ -178,6 +178,7 @@ def display_basket(basket, user_name, used_order_numbers):
             return True
         elif user_choice == '+':
             if basket:
+                print("Attempting to finish purchase...")
                 return purchase(basket, user_name, used_order_numbers)
             else:
                 print("Your basket is empty.")
@@ -248,6 +249,39 @@ def shop_in_category(chosen_category, basket, user_name, used_order_numbers):
             print("Invalid choice, please enter 0, 1, 2, 3, or 4.")
 
 
+def give_feedback(user_name):
+    print("Please rate TradeHub from 1 to 5:")
+
+    aspects = ["Site design", "Product variety", "Checkout process", "Customer service", "Shipping speed"]
+    ratings = []
+
+    for aspect in aspects:
+        rating = None
+        while rating is None:
+            try:
+                rating = int(input(f"Rate '{aspect}':\n"))
+                if rating < 1 or rating > 5:
+                    print("Invalid rating! Please enter a number between 1 and 5.")
+                    rating = None
+            except ValueError:
+                print("Invalid input! Please enter a number.")
+                rating = None
+        ratings.append(rating)
+
+    avg_rating = sum(ratings) / len(ratings)
+
+    print(f"\n{user_name}Thank you for your feedback!")
+    print(f"Your average rating for TradeHub is: {avg_rating:.2f}")
+
+    if avg_rating < 3:
+        print("Sorry to hear that you were not satisfied. We'll strive to improve.")
+    elif avg_rating >= 4:
+        print(f"{user_name} thank you for your feedback! Glad you had a great experience.")
+    else:
+        print("We appreciate your feedback. We'll use it to enhance your experience.")
+
+
+
 def main():
     user_name = identify_user()
     update_headings()
@@ -265,7 +299,9 @@ def main():
                 print("Redirecting to categories...")
                 continue
             elif result == "purchased":
-                print("Purchase completed successfully. Exiting program.")
+                print("Purchase completed successfully.")
+                give_feedback()
+                print("Exiting program.")
                 break
         elif chosen_option == "0":
             continue
@@ -276,8 +312,10 @@ def main():
                     chosen_category = categories[chosen_category_index]
                     shop_result = shop_in_category(chosen_category, basket, user_name, used_order_numbers)
                     if shop_result == "Purchased":
-                        print("Purchase completed successfully. See you soon!")
-                        break  
+                        print("Purchase completed successfully.")
+                        give_feedback(user_name)
+                        print("Have a great day!")
+                        break
                     elif shop_result is False:
                         continue
                     else:
