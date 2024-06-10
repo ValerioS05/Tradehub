@@ -1,6 +1,6 @@
 import gspread
 import random
-#import pyfiglet
+import pyfiglet
 from google.oauth2.service_account import Credentials
 
 
@@ -16,10 +16,12 @@ SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open("market_hub")
 
-def print_art(text):
-    ascii = pyfiglet.figlet_format(text)
-    print(ascii)
-
+def print_art(text, font="standard"):
+    try:
+        ascii_art = pyfiglet.figlet_format(text, font=font)
+    except pyfiglet.FontNotFound:
+        ascii_art = pyfiglet.figlet_format(text)
+    print(ascii_art)
 
 def identify_user():
     """
@@ -291,6 +293,7 @@ def shop_in_category(chosen_category, basket, user_name, used_order_numbers):
 
 
 def main():
+    print_art("TradeHub", font="standard")
     user_name = identify_user()
     update_headings()
     used_order_numbers = get_used_orders()
