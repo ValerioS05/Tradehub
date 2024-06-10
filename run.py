@@ -258,7 +258,7 @@ def display_basket(basket, user_name, used_order_numbers):
         user_choice = input("Enter item number to remove, 0 to go back, + to purchase:\n")
         
         if user_choice == '0':
-            return True
+            return False
         elif user_choice == '+':
             if basket:
                 print("Attempting to finish purchase...\n")
@@ -282,6 +282,8 @@ def handle_basket(basket, user_name, used_order_numbers):
         if result == 'finish':
             print("Attempting to finish purchase...\n")
             return purchase(basket, user_name, used_order_numbers)
+        elif result is False:
+            return
         print("\n1 - Continue shopping in the same category?")
         print("2 - Change category")
         print("3 - Finish purchase")
@@ -325,7 +327,7 @@ def shop_in_category(chosen_category, basket, user_name, used_order_numbers):
             elif basket_needs_redirection is True:
                 return True
             elif basket_needs_redirection is False:
-                return False
+                continue
         elif continue_or_finish == "0":
             return False
         else:
@@ -373,4 +375,3 @@ def main():
                 print("Invalid input. Please enter a number.\n")
 
 main()
-
