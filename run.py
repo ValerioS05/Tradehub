@@ -1,3 +1,4 @@
+
 import gspread
 import random
 import pyfiglet
@@ -16,9 +17,10 @@ SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open("market_hub")
 
+
 def print_art(text, font="standard"):
     """
-    Printing ascii art 
+    Printing ascii art
     text, font parameters
     prints argument when called
     """
@@ -28,9 +30,10 @@ def print_art(text, font="standard"):
         ascii_art = pyfiglet.figlet_format(text)
     print(ascii_art)
 
+
 def identify_user():
     """
-    Get name of the user by input of only alphab. 
+    Get name of the user by input of only alphab.
     return user_name
     """
     while True:
@@ -41,7 +44,7 @@ def identify_user():
         elif not user_name.strip():
             print("You must enter a name.\n")
         else:
-            print("Invalid name! Please enter a name containing only letters.\n")
+            print("Invalid name! Please enter a name with only letters.\n")
 
 
 def get_categories():
@@ -85,13 +88,14 @@ def get_quantity():
         try:
             quantity = int(input("Enter quantity:\n"))
             if quantity <= 0:
-                print("Invalid quantity. Please enter a number greater than 0.\n")
+                print("Invalid quantity! enter a number greater than 0.\n")
             elif quantity > 5:
                 print("Maximum quantity allowed is 5.\n")
             else:
                 return quantity
         except ValueError:
             print("Invalid input. Please enter a number.\n")
+
 
 def choose_item(category):
     """
@@ -110,7 +114,7 @@ def choose_item(category):
         print(f"{index}. {item[0]} - £{item[1]}")
 
     while True:
-        user_choice = input("Choose an item by entering its number (0 to go back):\n")
+        user_choice = input("Choose item by entering number, 0 to go back:\n")
         if user_choice == '0':
             return False  # or any other appropriate action
         try:
@@ -158,20 +162,26 @@ def give_feedback(user_name):
     print("Please rate TradeHub from 1 to 5:\n")
     print("Enter 'skip' to skip giving ratings.\n")
 
-    aspects = ["Site design", "Product variety", "Checkout process", "Customer service", "Service speed"]
+    aspects = [
+        "Site design",
+        "Product variety",
+        "Checkout process",
+        "Customer service",
+        "Service speed"
+    ]
     ratings = []
 
     for aspect in aspects:
         rating_input = input(f"Rate '{aspect}': ").strip().lower()
-        
+
         if rating_input == 'skip':
             print("Skipping ratings.\n")
             return None
-        
+
         try:
             rating = int(rating_input)
             if rating < 1 or rating > 5:
-                print("Invalid rating! Please enter a number between 1 and 5.\n")
+                print("Invalid rating! enter a number between 1 and 5.\n")
                 return None
             ratings.append(rating)
         except ValueError:
@@ -187,12 +197,13 @@ def give_feedback(user_name):
     print(f"Your average rating for TradeHub is: {avg_rating:.2f}\n")
 
     if avg_rating < 3:
-        print("Sorry to hear that you were not satisfied. We'll strive to improve.\n")
+        print("Sorry to hear that you were not satisfied. We'll improve.\n")
     elif avg_rating >= 4:
-        print("Thank you for your positive feedback! We're glad you had a great experience.\n")
+        print("Thank you for your positive feedback! Glad you had a great experience.\n")
     else:
         print("We appreciate your feedback. We'll use it to enhance your experience.\n")
     return avg_rating
+
 
 def purchase(basket, user_name, already_used):
     if not basket:
@@ -204,7 +215,7 @@ def purchase(basket, user_name, already_used):
         print(f"{item[0]} - £{item[1]}")
 
     purchases_sheet = SHEET.worksheet("Purchases")
-    
+
     last_column = len(purchases_sheet.row_values(1))
     next_column = last_column + 1
 
@@ -227,16 +238,18 @@ def purchase(basket, user_name, already_used):
     print(f"Total price: £{total_price:.2f}\n")
     print(f"Your order number: {order_num}\n")
     print(f"Thank you {user_name}!\n")
-    
+
     avg_rating = give_feedback(user_name)
     purchases_sheet.update_cell(row + 1, next_column, "Rating")
     purchases_sheet.update_cell(row + 1, column, avg_rating)
     return "Purchased"
 
+
 def get_used_orders():
     purchases_sheet = SHEET.worksheet("Purchases")
     order_numbers = purchases_sheet.col_values(2)[1:]
     return set(order_numbers)
+
 
 def order_number(already_used):
     while True:
@@ -244,6 +257,7 @@ def order_number(already_used):
         if order_number not in already_used:
             already_used.add(order_number)
             return order_number
+
 
 def display_basket(basket, user_name, used_order_numbers):
     while True:
@@ -256,7 +270,7 @@ def display_basket(basket, user_name, used_order_numbers):
             print(f"{index}. {item[0]} - £{item[1]}")
 
         user_choice = input("Enter item number to remove, 0 to go back, + to purchase:\n")
-        
+
         if user_choice == '0':
             return False
         elif user_choice == '+':
@@ -275,6 +289,7 @@ def display_basket(basket, user_name, used_order_numbers):
                     print("Invalid choice. Please enter a valid number.\n")
             except ValueError:
                 print("Invalid input. Please enter a number or +.\n")
+
 
 def handle_basket(basket, user_name, used_order_numbers):
     while True:
@@ -301,6 +316,7 @@ def handle_basket(basket, user_name, used_order_numbers):
             continue
         else:
             print("Invalid choice, please enter 1, 2, 3, or 4.\n")
+
 
 def shop_in_category(chosen_category, basket, user_name, used_order_numbers):
     while True:
@@ -368,10 +384,11 @@ def main():
                         print("Have a great day!")
                         break
                     else:
-                        print("An unexpected error occurred. Please try again.\n") 
+                        print("An unexpected error occurred.Try again.\n")
                 else:
-                    print("Invalid choice. Please enter a valid number.\n")
+                    print("Invalid choice. Enter a valid number.\n")
             except ValueError:
                 print("Invalid input. Please enter a number.\n")
+
 
 main()
