@@ -17,6 +17,11 @@ GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open("market_hub")
 
 def print_art(text, font="standard"):
+    """
+    Printing ascii art 
+    text, font parameters
+    prints argument when called
+    """
     try:
         ascii_art = pyfiglet.figlet_format(text, font=font)
     except pyfiglet.FontNotFound:
@@ -25,8 +30,8 @@ def print_art(text, font="standard"):
 
 def identify_user():
     """
-    Get name of the user,
-    we will use the name for greetings and store to add name to basket
+    Get name of the user by input of only alphab. 
+    return user_name
     """
     while True:
         user_name = input("Welcome to TradeHub, please enter name to start:\n")
@@ -41,7 +46,8 @@ def identify_user():
 
 def get_categories():
     """
-    Gets the worksheet name from the spreadsheet excluding the basket
+    Gets the worksheet names from spreadsheet excluding purchases
+    Return category_names
     """
     worksheet_objects = SHEET.worksheets()
     category_names = [
@@ -55,6 +61,8 @@ def get_categories():
 def choose_category(categories):
     """
     let the user choose a category(category = worksheets in spreadsheet)
+    parameter categories
+    return chosen category (choice_i)
     """
     while True:
         user_choice = input("Choose a category by entering its number:\n")
@@ -68,11 +76,28 @@ def choose_category(categories):
             print("Invalid input, plese enter a number\n")
 
 
+def get_quantity():
+    """
+    handles the quantity that user insert
+    Function used in choose_item
+    """
+    while True:
+        try:
+            quantity = int(input("Enter quantity:\n"))
+            if quantity <= 0:
+                print("Invalid quantity. Please enter a number greater than 0.\n")
+            elif quantity > 5:
+                print("Maximum quantity allowed is 5.\n")
+            else:
+                return quantity
+        except ValueError:
+            print("Invalid input. Please enter a number.\n")
+
 def choose_item(category):
     """
     User can choose items stored in the worksheets.
     Items are printed with enumeration.
-    Error handling is set to accept valid input.
+    parameter category
     """
     category_sheet = SHEET.worksheet(category)
     items = category_sheet.get_all_values()
@@ -86,17 +111,15 @@ def choose_item(category):
 
     while True:
         user_choice = input("Choose an item by entering its number (0 to go back):\n")
+        if user_choice == '0':
+            return False  # or any other appropriate action
         try:
             choice_index = int(user_choice) - 1
-            if choice_index == -1:
-                return None
+            if choice_index < 0:
+                print("Invalid choice. Please enter a valid number.\n")
+                continue
             elif 0 <= choice_index < len(items) - 1:
-                quantity = int(input("Enter quantity:\n"))
-                if quantity <= 0:
-                    print("Invalid quantity. Please enter a number between 0 and 5.\n")
-                elif quantity > 5:
-                        print("Maximum is 5 at once!")
-                        return
+                quantity = get_quantity()
                 item = items[choice_index + 1]
                 item_with_quantity = (item[0], item[1], quantity)
                 return item_with_quantity
@@ -110,7 +133,7 @@ def add_to_basket(basket, item_with_quantity):
     item, price, quantity = item_with_quantity
     for _ in range(quantity):
         basket.append((item, price))
-    print(f"{quantity} {item} added to basket.\n")
+    print(f"{quantity}x {item} added to basket.\n")
 
 
 def update_headings():
