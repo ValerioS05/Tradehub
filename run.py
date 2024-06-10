@@ -115,6 +115,37 @@ def update_headings():
     return next_start_column_a1
 
 
+def give_feedback(user_name):
+    print("Please rate TradeHub from 1 to 5:")
+
+    aspects = ["Site design", "Product variety", "Checkout process", "Customer service", "Shipping speed"]
+    ratings = []
+
+    for aspect in aspects:
+        rating = None
+        while rating is None:
+            try:
+                rating = int(input(f"Rate '{aspect}':\n"))
+                if rating < 1 or rating > 5:
+                    print("Invalid rating! Please enter a number between 1 and 5.")
+                    rating = None
+            except ValueError:
+                print("Invalid input! Please enter a number.")
+                rating = None
+        ratings.append(rating)
+
+    avg_rating = sum(ratings) / len(ratings)
+    print(f"\n{user_name}Thank you for your feedback!")
+    print(f"Your average rating for TradeHub is: {avg_rating:.2f}")
+
+    if avg_rating < 3:
+        print("Sorry to hear that you were not satisfied. We'll strive to improve.")
+    elif avg_rating >= 4:
+        print(f"{user_name} thank you for your feedback! Glad you had a great experience.")
+    else:
+        print("We appreciate your feedback. We'll use it to enhance your experience.")
+    return avg_rating
+
 def purchase(basket, user_name, already_used):
     if not basket:
         print("Your basket is empty!")
@@ -148,6 +179,10 @@ def purchase(basket, user_name, already_used):
     print(f"Total price: £{total_price:.2f}")
     print(f"Your order number: {order_num}")
     print(f"Thank you {user_name}!")
+    
+    avg_rating = give_feedback(user_name)
+    purchases_sheet.update_cell(row + 1, next_column, "Rating")
+    purchases_sheet.update_cell(row + 1, column, avg_rating)
     return "Purchased"
 
 def get_used_orders():
@@ -249,36 +284,9 @@ def shop_in_category(chosen_category, basket, user_name, used_order_numbers):
             print("Invalid choice, please enter 0, 1, 2, 3, or 4.")
 
 
-def give_feedback(user_name):
-    print("Please rate TradeHub from 1 to 5:")
 
-    aspects = ["Site design", "Product variety", "Checkout process", "Customer service", "Shipping speed"]
-    ratings = []
 
-    for aspect in aspects:
-        rating = None
-        while rating is None:
-            try:
-                rating = int(input(f"Rate '{aspect}':\n"))
-                if rating < 1 or rating > 5:
-                    print("Invalid rating! Please enter a number between 1 and 5.")
-                    rating = None
-            except ValueError:
-                print("Invalid input! Please enter a number.")
-                rating = None
-        ratings.append(rating)
-
-    avg_rating = sum(ratings) / len(ratings)
-
-    print(f"\n{user_name}Thank you for your feedback!")
-    print(f"Your average rating for TradeHub is: {avg_rating:.2f}")
-
-    if avg_rating < 3:
-        print("Sorry to hear that you were not satisfied. We'll strive to improve.")
-    elif avg_rating >= 4:
-        print(f"{user_name} thank you for your feedback! Glad you had a great experience.")
-    else:
-        print("We appreciate your feedback. We'll use it to enhance your experience.")
+    
 
 
 
@@ -300,7 +308,6 @@ def main():
                 continue
             elif result == "purchased":
                 print("Purchase completed successfully.")
-                give_feedback()
                 print("Exiting program.")
                 break
         elif chosen_option == "0":
@@ -313,7 +320,6 @@ def main():
                     shop_result = shop_in_category(chosen_category, basket, user_name, used_order_numbers)
                     if shop_result == "Purchased":
                         print("Purchase completed successfully.")
-                        give_feedback(user_name)
                         print("Have a great day!")
                         break
                     elif shop_result is False:
