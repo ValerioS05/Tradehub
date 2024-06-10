@@ -93,8 +93,10 @@ def choose_item(category):
             elif 0 <= choice_index < len(items) - 1:
                 quantity = int(input("Enter quantity:\n"))
                 if quantity <= 0:
-                    print("Invalid quantity. Please enter a number greater than 0.\n")
-                    continue
+                    print("Invalid quantity. Please enter a number between 0 and 5.\n")
+                elif quantity > 5:
+                        print("Maximum is 5 at once!")
+                        return
                 item = items[choice_index + 1]
                 item_with_quantity = (item[0], item[1], quantity)
                 return item_with_quantity
@@ -131,31 +133,40 @@ def update_headings():
 
 def give_feedback(user_name):
     print("Please rate TradeHub from 1 to 5:\n")
+    print("Enter 'skip' to skip giving ratings.\n")
 
     aspects = ["Site design", "Product variety", "Checkout process", "Customer service", "Service speed"]
     ratings = []
 
     for aspect in aspects:
-        rating = None
-        while rating is None:
-            try:
-                rating = int(input(f"Rate '{aspect}':\n"))
-                if rating < 1 or rating > 5:
-                    print("Invalid rating! Please enter a number between 1 and 5.\n")
-                    rating = None
-            except ValueError:
-                print("Invalid input! Please enter a number.\n")
-                rating = None
-        ratings.append(rating)
+        rating_input = input(f"Rate '{aspect}': ").strip().lower()
+        
+        if rating_input == 'skip':
+            print("Skipping ratings.\n")
+            return None
+        
+        try:
+            rating = int(rating_input)
+            if rating < 1 or rating > 5:
+                print("Invalid rating! Please enter a number between 1 and 5.\n")
+                return None
+            ratings.append(rating)
+        except ValueError:
+            print("Invalid input! Please enter a number.\n")
+            return None
+
+    if not ratings:
+        print("No ratings provided.\n")
+        return None
 
     avg_rating = sum(ratings) / len(ratings)
-    print(f"\n{user_name} Thank you for your feedback!\n")
+    print(f"\n{user_name}, thank you for your feedback!\n")
     print(f"Your average rating for TradeHub is: {avg_rating:.2f}\n")
 
     if avg_rating < 3:
         print("Sorry to hear that you were not satisfied. We'll strive to improve.\n")
     elif avg_rating >= 4:
-        print(f"{user_name} thank you for your feedback! Glad you had a great experience.\n")
+        print("Thank you for your positive feedback! We're glad you had a great experience.\n")
     else:
         print("We appreciate your feedback. We'll use it to enhance your experience.\n")
     return avg_rating
@@ -331,10 +342,8 @@ def main():
                         print("Purchase completed successfully.\n")
                         print("Have a great day!")
                         break
-                    elif shop_result is False:
-                        continue
                     else:
-                        continue  
+                        print("An unexpected error occurred. Please try again.\n") 
                 else:
                     print("Invalid choice. Please enter a valid number.\n")
             except ValueError:
