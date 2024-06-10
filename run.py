@@ -70,33 +70,45 @@ def choose_category(categories):
 
 def choose_item(category):
     """
-    user can choose items stored in the worksheets.
-    Items are printed with enumeration
-    error handling set to accept valid input
+    User can choose items stored in the worksheets.
+    Items are printed with enumeration.
+    Error handling is set to accept valid input.
     """
     category_sheet = SHEET.worksheet(category)
     items = category_sheet.get_all_values()
     if len(items) <= 1:
         print("No items available in this category.\n")
         return
+
     print("Here are the available items:\n")
     for index, item in enumerate(items[1:], start=1):
         print(f"{index}. {item[0]} - £{item[1]}")
+
     while True:
-        user_choice = input("Choose an item by entering its number:\n")
+        user_choice = input("Choose an item by entering its number (0 to go back):\n")
         try:
             choice_index = int(user_choice) - 1
-            if 0 <= choice_index < len(items) - 1:
-                return items[choice_index + 1]
+            if choice_index == -1:
+                return None
+            elif 0 <= choice_index < len(items) - 1:
+                quantity = int(input("Enter quantity:\n"))
+                if quantity <= 0:
+                    print("Invalid quantity. Please enter a number greater than 0.\n")
+                    continue
+                item = items[choice_index + 1]
+                item_with_quantity = (item[0], item[1], quantity)
+                return item_with_quantity
             else:
                 print("Invalid choice. Please enter a valid number.\n")
         except ValueError:
             print("Invalid input. Please enter a number.\n")
 
 
-def add_to_basket(basket, item):
-    basket.append(item)
-    print(f"{item[0]} added to basket.\n")
+def add_to_basket(basket, item_with_quantity):
+    item, price, quantity = item_with_quantity
+    for _ in range(quantity):
+        basket.append((item, price))
+    print(f"{quantity} {item} added to basket.\n")
 
 
 def update_headings():
