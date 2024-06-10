@@ -193,7 +193,7 @@ def give_feedback(user_name):
         return None
 
     avg_rating = sum(ratings) / len(ratings)
-    print(f"\n{user_name}, thank you for your feedback!\n")
+    print(f"\nThank you for your feedback!\n")
     print(f"Your average rating for TradeHub is: {avg_rating:.2f}\n")
 
     if avg_rating < 3:
@@ -381,7 +381,7 @@ def main():
                     shop_result = shop_in_category(chosen_category, basket, user_name, used_order_numbers)
                     if shop_result == "Purchased":
                         print("Purchase completed successfully.\n")
-                        print("Have a great day!")
+                        print_art("Have a great day!", font="standard")
                         break
                     else:
                         print("An unexpected error occurred.Try again.\n")
