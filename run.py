@@ -2,8 +2,10 @@
 import gspread
 import random
 import pyfiglet
+from colorama import just_fix_windows_console
+just_fix_windows_console()
+from colorama import Fore, Back, Style
 from google.oauth2.service_account import Credentials
-
 
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
@@ -28,7 +30,13 @@ def print_art(text, font="standard"):
         ascii_art = pyfiglet.figlet_format(text, font=font)
     except pyfiglet.FontNotFound:
         ascii_art = pyfiglet.figlet_format(text)
-    print(ascii_art)
+    print(Fore.GREEN + ascii_art + Style.RESET_ALL)
+
+def print_green(text):
+    """
+    Printing text with green background
+    """
+    print(Fore.GREEN + text + Style.RESET_ALL)
 
 
 def identify_user():
@@ -39,7 +47,7 @@ def identify_user():
     while True:
         user_name = input("Welcome to TradeHub, please enter name to start:\n")
         if user_name.strip() and user_name.isalpha():
-            print(f"Hey {user_name},let's choose a category\n")
+            print_green(f"Hey {user_name},let's choose a category\n")
             return user_name
         elif not user_name.strip():
             print("You must enter a name.\n")
@@ -68,7 +76,6 @@ def choose_category(categories):
     return chosen category (choice_i)
     """
     while True:
-        user_choice = input("Choose a category by entering its number:\n")
         try:
             choice_i = int(user_choice) - 1
             if 0 <= choice_i < len(categories):
@@ -384,7 +391,7 @@ def main():
                         print_art("Have a great day!", font="standard")
                         break
                     else:
-                        print("An unexpected error occurred.Try again.\n")
+                        continue
                 else:
                     print("Invalid choice. Enter a valid number.\n")
             except ValueError:
