@@ -179,21 +179,22 @@ def handle_basket(basket, user_name, used_order_numbers):
             return "Purchased"
         elif result is False:
             return
-        print_green("\n1 - Continue shopping in the same category?")
-        print_green("2 - Change category")
-        print_green("3 - Finish purchase")
-        print_green("4 - View basket\n")
-        continue_or_finish = input("Insert number for next step:\n")
-        if continue_or_finish == "1":
-            return False
-        elif continue_or_finish == "2":
-            return True
-        elif continue_or_finish == "3":
-            return purchase(basket, user_name, used_order_numbers)
-        elif continue_or_finish == "4":
-            continue
-        else:
-            print_red("Invalid choice, please enter 1, 2, 3, or 4.\n")
+        while True:
+            print_green("\n1 - Continue shopping in the same category?")
+            print_green("2 - Change category")
+            print_green("3 - Finish purchase")
+            print_green("4 - View basket\n")
+            continue_or_finish = input("Insert number for next step:\n")
+            if continue_or_finish == "1":
+                return False
+            elif continue_or_finish == "2":
+                return True
+            elif continue_or_finish == "3":
+                return purchase(basket, user_name, used_order_numbers)
+            elif continue_or_finish == "4":
+                break
+            else:
+                print_red("Invalid choice, please enter 1, 2, 3, or 4.\n")
 
 def shop_in_category(chosen_category, basket, user_name, used_order_numbers):
     while True:
@@ -201,23 +202,26 @@ def shop_in_category(chosen_category, basket, user_name, used_order_numbers):
         chosen_item = choose_item(chosen_category)
         if chosen_item:
             add_to_basket(basket, chosen_item)
-        print_green("\n1 - Continue shopping in the same category?")
-        print_green("2 - Change category")
-        print_green("3 - Finish purchase")
-        print_green("4 - View basket\n")
-        continue_or_finish = input("Insert number for your next step:\n")
-        if continue_or_finish == "1":
-            continue
-        elif continue_or_finish == "2":
-            return True
-        elif continue_or_finish == "3":
-            return purchase(basket, user_name, used_order_numbers)
-        elif continue_or_finish == "4":
-            basket_result = display_basket(basket, user_name, used_order_numbers)
-            if basket_result == "Purchased":
-                return "Purchased"
-        else:
-            print_red("Invalid choice, please enter 1, 2, 3, or 4.\n")
+        while True:
+            print_green("\n1 - Continue shopping in the same category?")
+            print_green("2 - Change category")
+            print_green("3 - Finish purchase")
+            print_green("4 - View basket\n")
+            continue_or_finish = input("Insert number for your next step:\n")
+            if continue_or_finish == "1":
+                break
+            elif continue_or_finish == "2":
+                return True
+            elif continue_or_finish == "3":
+                return purchase(basket, user_name, used_order_numbers)
+            elif continue_or_finish == "4":
+                basket_result = display_basket(basket, user_name, used_order_numbers)
+                if basket_result == "Purchased":
+                    return "Purchased"
+                elif basket_result is False:
+                    break
+            else:
+                print_red("Invalid choice, please enter 1, 2, 3, or 4.\n")
 
 
 def update_headings():
@@ -252,31 +256,36 @@ def give_feedback(user_name):
     ratings = []
 
     for aspect in aspects:
-        rating_input = input(f"Rate '{aspect}': ").strip().lower()
-        if rating_input == 'skip':
-            print_red("Skipping ratings.\n")
-            return None
-        try:
-            rating = int(rating_input)
-            if 1 <= rating <= 5:
-                ratings.append(rating)
-            else:
-                print_red("Invalid rating! Enter a number between 1 and 5.\n")
+        while True:
+            rating_input = input(f"Rate '{aspect}': ").strip().lower()
+            if rating_input == 'skip':
+                print_red("Skipping ratings.\n")
                 return None
-        except ValueError:
-            print_red("Invalid input! Please enter a number.\n")
-            return None
 
-    avg_rating = sum(ratings) / len(ratings) if ratings else None
+            try:
+                rating = int(rating_input)
+                if 1 <= rating <= 5:
+                    ratings.append(rating)
+                    break
+                else:
+                    print_red("Invalid rating! Enter a number between 1 and 5.\n")
+            except ValueError:
+                print_red("Invalid input! Please enter a number between 1 and 5.\n")
+
+    if not ratings:
+        print_green("No ratings provided.\n")
+        return None
+
+    avg_rating = sum(ratings) / len(ratings)
     print_green(f"\nThank you for your feedback!\n")
-    if avg_rating:
-        print_green(f"Your average rating for TradeHub is: {avg_rating:.2f}\n")
-        if avg_rating < 3:
-            print_red("Sorry to hear that you were not satisfied. We'll improve.\n")
-        elif avg_rating >= 4:
-            print_green("Thank you for your positive feedback! Glad you had a great experience.\n")
-        else:
-            print_green("We appreciate your feedback. We'll use it to enhance your experience.\n")
+    print_green(f"Your average rating for TradeHub is: {avg_rating:.2f}\n")
+
+    if avg_rating < 3:
+        print_red("Sorry to hear that you were not satisfied. We'll improve.\n")
+    elif avg_rating >= 4:
+        print_green("Thank you for your positive feedback! Glad you had a great experience.\n")
+    else:
+        print_green("We appreciate your feedback. We'll use it to enhance your experience.\n")
     return avg_rating
 
 
@@ -356,9 +365,10 @@ def main():
             if result == "empty":
                 print_green("Redirecting to categories...\n")
                 continue
-            elif result == "purchased":
+            elif result == "Purchased":
                 print_green("Purchase completed successfully.\n")
                 print_green("Exiting program.")
+                print_art("Have a great day!", font="standard")
                 break
         else:
             try:
@@ -376,6 +386,5 @@ def main():
                     print_red("Invalid choice. Enter a valid number.\n")
             except ValueError:
                 print_red("Invalid input. Please enter a number.\n")
-
 
 main()
