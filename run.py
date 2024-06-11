@@ -49,7 +49,7 @@ def identify_user():
     while True:
         user_name = input("Welcome to TradeHub, please enter name to start:\n")
         if user_name.strip() and user_name.isalpha():
-            print_green(f"Hey {user_name},let's choose a category\n")
+            print_green(f"Hey {user_name}, let's choose a category\n")
             return user_name
         elif not user_name.strip():
             print_red("You must enter a name.\n")
@@ -79,13 +79,14 @@ def choose_category(categories):
     """
     while True:
         try:
+            user_choice = input("Enter the number of the category:\n")
             choice_i = int(user_choice) - 1
             if 0 <= choice_i < len(categories):
                 return categories[choice_i]
             else:
                 print_red("Invalid choice. Please enter a valid number\n")
         except ValueError:
-            print_red("Invalid input, plese enter a number\n")
+            print_red("Invalid input, please enter a number\n")
 
 
 def get_quantity():
@@ -97,7 +98,7 @@ def get_quantity():
         try:
             quantity = int(input("Enter quantity:\n"))
             if quantity <= 0:
-                print_red("Invalid quantity! enter a number greater than 0.\n")
+                print_red("Invalid quantity! Enter a number greater than 0.\n")
             elif quantity > 5:
                 print_red("Maximum quantity allowed is 5.\n")
             else:
@@ -116,7 +117,7 @@ def choose_item(category):
     items = category_sheet.get_all_values()
     if len(items) <= 1:
         print_red("No items available in this category.\n")
-        return
+        return None
 
     print_green("Here are the available items:\n")
     for index, item in enumerate(items[1:], start=1):
@@ -124,17 +125,13 @@ def choose_item(category):
     while True:
         user_choice = input("\nChoose item by entering number, 0 to go back:\n")
         if user_choice == '0':
-            return False  # or any other appropriate action
+            return None
         try:
             choice_index = int(user_choice) - 1
-            if choice_index < 0:
-                print_red("Invalid choice. Please enter a valid number.\n")
-                continue
-            elif 0 <= choice_index < len(items) - 1:
+            if 0 <= choice_index < len(items) - 1:
                 quantity = get_quantity()
                 item = items[choice_index + 1]
-                item_with_quantity = (item[0], item[1], quantity)
-                return item_with_quantity
+                return item[0], item[1], quantity
             else:
                 print_red("Invalid choice. Please enter a valid number.\n")
         except ValueError:
@@ -146,6 +143,81 @@ def add_to_basket(basket, item_with_quantity):
     for _ in range(quantity):
         basket.append((item, price))
     print_green(f"{quantity}x {item} added to basket.\n")
+
+
+def display_basket(basket, user_name, used_order_numbers):
+    while True:
+        if not basket:
+            print_red("Your basket is empty.\n")
+            return False
+
+        print_green("Current items in your basket:\n")
+        for index, item in enumerate(basket, start=1):
+            print_green(f"{index}. {item[0]} - £{item[1]}")
+
+        user_choice = input("Enter item number to remove, 0 to go back, + to purchase:\n")
+        if user_choice == '0':
+            return False
+        elif user_choice == '+':
+            print_green("Attempting to finish purchase...\n")
+            return purchase(basket, user_name, used_order_numbers)
+        try:
+            choice_index = int(user_choice) - 1
+            if 0 <= choice_index < len(basket):
+                removed_item = basket.pop(choice_index)
+                print_green(f"Removed {removed_item[0]} from the basket.\n")
+            else:
+                print_red("Invalid choice. Please enter a valid number.\n")
+        except ValueError:
+            print_red("Invalid input. Please enter a number or +.\n")
+
+
+def handle_basket(basket, user_name, used_order_numbers):
+    while True:
+        result = display_basket(basket, user_name, used_order_numbers)
+        if result == 'Purchased':
+            return "Purchased"
+        elif result is False:
+            return
+        print_green("\n1 - Continue shopping in the same category?")
+        print_green("2 - Change category")
+        print_green("3 - Finish purchase")
+        print_green("4 - View basket\n")
+        continue_or_finish = input("Insert number for next step:\n")
+        if continue_or_finish == "1":
+            return False
+        elif continue_or_finish == "2":
+            return True
+        elif continue_or_finish == "3":
+            return purchase(basket, user_name, used_order_numbers)
+        elif continue_or_finish == "4":
+            continue
+        else:
+            print_red("Invalid choice, please enter 1, 2, 3, or 4.\n")
+
+def shop_in_category(chosen_category, basket, user_name, used_order_numbers):
+    while True:
+        print_green(f"This is our stock for {chosen_category}:")
+        chosen_item = choose_item(chosen_category)
+        if chosen_item:
+            add_to_basket(basket, chosen_item)
+        print_green("\n1 - Continue shopping in the same category?")
+        print_green("2 - Change category")
+        print_green("3 - Finish purchase")
+        print_green("4 - View basket\n")
+        continue_or_finish = input("Insert number for your next step:\n")
+        if continue_or_finish == "1":
+            continue
+        elif continue_or_finish == "2":
+            return True
+        elif continue_or_finish == "3":
+            return purchase(basket, user_name, used_order_numbers)
+        elif continue_or_finish == "4":
+            basket_result = display_basket(basket, user_name, used_order_numbers)
+            if basket_result == "Purchased":
+                return "Purchased"
+        else:
+            print_red("Invalid choice, please enter 1, 2, 3, or 4.\n")
 
 
 def update_headings():
@@ -181,35 +253,30 @@ def give_feedback(user_name):
 
     for aspect in aspects:
         rating_input = input(f"Rate '{aspect}': ").strip().lower()
-
         if rating_input == 'skip':
             print_red("Skipping ratings.\n")
             return None
-
         try:
             rating = int(rating_input)
-            if rating < 1 or rating > 5:
-                print_red("Invalid rating! enter a number between 1 and 5.\n")
+            if 1 <= rating <= 5:
+                ratings.append(rating)
+            else:
+                print_red("Invalid rating! Enter a number between 1 and 5.\n")
                 return None
-            ratings.append(rating)
         except ValueError:
             print_red("Invalid input! Please enter a number.\n")
             return None
 
-    if not ratings:
-        print_green("No ratings provided.\n")
-        return None
-
-    avg_rating = sum(ratings) / len(ratings)
+    avg_rating = sum(ratings) / len(ratings) if ratings else None
     print_green(f"\nThank you for your feedback!\n")
-    print_green(f"Your average rating for TradeHub is: {avg_rating:.2f}\n")
-
-    if avg_rating < 3:
-        print_red("Sorry to hear that you were not satisfied. We'll improve.\n")
-    elif avg_rating >= 4:
-        print_green("Thank you for your positive feedback! Glad you had a great experience.\n")
-    else:
-        print_green("We appreciate your feedback. We'll use it to enhance your experience.\n")
+    if avg_rating:
+        print_green(f"Your average rating for TradeHub is: {avg_rating:.2f}\n")
+        if avg_rating < 3:
+            print_red("Sorry to hear that you were not satisfied. We'll improve.\n")
+        elif avg_rating >= 4:
+            print_green("Thank you for your positive feedback! Glad you had a great experience.\n")
+        else:
+            print_green("We appreciate your feedback. We'll use it to enhance your experience.\n")
     return avg_rating
 
 
@@ -267,95 +334,9 @@ def order_number(already_used):
             return order_number
 
 
-def display_basket(basket, user_name, used_order_numbers):
-    while True:
-        if not basket:
-            print_red("Your basket is empty.\n")
-            return False
-
-        print_green("Current items in your basket:\n")
-        for index, item in enumerate(basket, start=1):
-            print_green(f"{index}. {item[0]} - £{item[1]}")
-
-        user_choice = input("Enter item number to remove, 0 to go back, + to purchase:\n")
-
-        if user_choice == '0':
-            return False
-        elif user_choice == '+':
-            if basket:
-                print_green("Attempting to finish purchase...\n")
-                return purchase(basket, user_name, used_order_numbers)
-            else:
-                print_red("Your basket is empty.\n")
-        else:
-            try:
-                choice_index = int(user_choice) - 1
-                if 0 <= choice_index < len(basket):
-                    removed_item = basket.pop(choice_index)
-                    print_green(f"Removed {removed_item[0]} from the basket.\n")
-                else:
-                    print_red("Invalid choice. Please enter a valid number.\n")
-            except ValueError:
-                print_red("Invalid input. Please enter a number or +.\n")
 
 
-def handle_basket(basket, user_name, used_order_numbers):
-    while True:
-        result = display_basket(basket, user_name, used_order_numbers)
-        if result == 'finish':
-            print_green("Attempting to finish purchase...\n")
-            return purchase(basket, user_name, used_order_numbers)
-        elif result is False:
-            return
-        print_green("\n1 - Continue shopping in the same category?")
-        print_green("2 - Change category")
-        print_green("3 - Finish purchase")
-        print_green("4 - View basket\n")
-        continue_or_finish = input("Insert number for next step:\n")
 
-        if continue_or_finish == "1":
-            return False
-        elif continue_or_finish == "2":
-            return True
-        elif continue_or_finish == "3":
-            print_green("Attempting to finish purchase...\n")
-            return purchase(basket, user_name, used_order_numbers)
-        elif continue_or_finish == "4":
-            continue
-        else:
-            print_red("Invalid choice, please enter 1, 2, 3, or 4.\n")
-
-
-def shop_in_category(chosen_category, basket, user_name, used_order_numbers):
-    while True:
-        print_green(f"This is our stock for {chosen_category}:")
-        chosen_item = choose_item(chosen_category)
-        if chosen_item:
-            add_to_basket(basket, chosen_item)
-        print_green("\n1 - Continue shopping in the same category?")
-        print_green("2 - Change category")
-        print_green("3 - Finish purchase")
-        print_green("4 - View basket\n")
-        continue_or_finish = input("Insert number for your next step:\n")
-        if continue_or_finish == "1":
-            continue
-        elif continue_or_finish == "2":
-            return True
-        elif continue_or_finish == "3":
-            print_green("Attempting to finish purchase...\n")
-            return purchase(basket, user_name, used_order_numbers)
-        elif continue_or_finish == "4":
-            basket_needs_redirection = display_basket(basket, user_name, used_order_numbers)
-            if basket_needs_redirection == "Purchased":
-                return "Purchased"
-            elif basket_needs_redirection is True:
-                return True
-            elif basket_needs_redirection is False:
-                continue
-        elif continue_or_finish == "0":
-            return False
-        else:
-            print_red("Invalid choice, please enter 0, 1, 2, 3, or 4.\n")
 
 
 def main():
