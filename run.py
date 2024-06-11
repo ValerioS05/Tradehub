@@ -1,18 +1,14 @@
-
 import gspread
 import random
 import pyfiglet
-from colorama import just_fix_windows_console
-just_fix_windows_console()
-from colorama import Fore, Back, Style
+from colorama import just_fix_windows_console, Fore, Style
 from google.oauth2.service_account import Credentials
 
-SCOPE = [
-    "https://www.googleapis.com/auth/spreadsheets",
-    "https://www.googleapis.com/auth/drive.file",
-    "https://www.googleapis.com/auth/drive"
-    ]
+just_fix_windows_console()
 
+SCOPE = ["https://www.googleapis.com/auth/spreadsheets",
+         "https://www.googleapis.com/auth/drive.file",
+         "https://www.googleapis.com/auth/drive"]
 
 CREDS = Credentials.from_service_account_file('creds.json')
 SCOPED_CREDS = CREDS.with_scopes(SCOPE)
@@ -383,8 +379,6 @@ def main():
                 print_green("Purchase completed successfully.\n")
                 print_green("Exiting program.")
                 break
-        elif chosen_option == "0":
-            continue
         else:
             try:
                 chosen_category_index = int(chosen_option) - 1
