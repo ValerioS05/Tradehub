@@ -100,7 +100,7 @@ def get_quantity():
             if quantity <= 0:
                 print_red("Invalid quantity! Enter a number greater than 0.\n")
             elif quantity > 5:
-                print_red("Maximum quantity allowed is 5.\n")
+                print_red("Maximum quantity allowed at once is 5.\n")
             else:
                 return quantity
         except ValueError:
