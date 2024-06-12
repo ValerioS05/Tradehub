@@ -125,7 +125,8 @@ def choose_item(category):
     for index, item in enumerate(items[1:], start=1):
         print_green(f"{index}. {item[0]} - £{item[1]}")
     while True:
-        user_choice = input("\nChoose item by entering number, 0 to go back:\n")
+        user_choice = input("\nChoose item by entering number,")
+        ("0 to go back:\n")
         if user_choice == '0':
             return None
         try:
@@ -165,9 +166,11 @@ def display_basket(basket, user_name, used_order_numbers):
         item_list = list(item_counts.items())
 
         for index, (item, stats) in enumerate(item_list, start=1):
-            print_green(f"{index}. {item} - £{stats['price']} x{stats['count']}")
+            print_green(f"{index}. {item} - £{stats['price']}")
+            (f"x{stats['count']}")
 
-        user_choice = input("Item number to remove, 0 to go back, + to purchase:\n")
+        user_choice = input("Item number to remove, 0 to go back,")
+        ("to purchase:\n")
         if user_choice == '0':
             return False
         elif user_choice == '+':
@@ -238,7 +241,11 @@ def shop_in_category(chosen_category, basket, user_name, used_order_numbers):
             elif continue_or_finish == "3":
                 return purchase(basket, user_name, used_order_numbers)
             elif continue_or_finish == "4":
-                basket_result = display_basket(basket, user_name, used_order_numbers)
+                basket_result = display_basket(
+                    basket,
+                    user_name,
+                    used_order_numbers
+                )
                 if basket_result == "Purchased":
                     return "Purchased"
                 elif basket_result is False:
@@ -291,9 +298,11 @@ def give_feedback(user_name):
                     ratings.append(rating)
                     break
                 else:
-                    print_red("Invalid rating! Enter a number between 1 and 5.\n")
+                    print_red("Invalid rating!")
+                    ("Enter a number between 1 and 5.\n")
             except ValueError:
-                print_red("Invalid input! Please enter a number between 1 and 5.\n")
+                print_red("Invalid input!")
+                ("Please enter a number between 1 and 5.\n")
 
     if not ratings:
         print_green("No ratings provided.\n")
@@ -304,11 +313,14 @@ def give_feedback(user_name):
     print_green(f"Your average rating for TradeHub is: {avg_rating:.2f}\n")
 
     if avg_rating < 3:
-        print_red("Sorry to hear that you were not satisfied. We'll improve.\n")
+        print_red("Sorry to hear that you were not satisfied.")
+        ("We'll improve.\n")
     elif avg_rating >= 4:
-        print_green("Thank you for your positive feedback! Glad you had a great experience.\n")
+        print_green("Thank you for your positive feedback!")
+        ("Glad you had a great experience.\n")
     else:
-        print_green("We appreciate your feedback. We'll use it to enhance your experience.\n")
+        print_green("We appreciate your feedback.")
+        ("We'll use it to enhance your experience.\n")
     return avg_rating
 
 
@@ -393,7 +405,11 @@ def main():
                 chosen_category_index = int(chosen_option) - 1
                 if 0 <= chosen_category_index < len(categories):
                     chosen_category = categories[chosen_category_index]
-                    shop_result = shop_in_category(chosen_category, basket, user_name, used_order_numbers)
+                    shop_result = shop_in_category(
+                        chosen_category,
+                        basket, user_name,
+                        used_order_numbers
+                        )
                     if shop_result == "Purchased":
                         print_green("Purchase completed successfully.\n")
                         print_art("Goodbye", font="standard")
