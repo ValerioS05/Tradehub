@@ -28,6 +28,7 @@ def print_art(text, font="standard"):
         ascii_art = pyfiglet.figlet_format(text)
     print(Fore.GREEN + ascii_art + Style.RESET_ALL)
 
+
 def print_green(text):
     """
     Printing text with green background
@@ -40,6 +41,7 @@ def print_red(text):
     Printing text with green background
     """
     print(Fore.RED + text + Style.RESET_ALL)
+
 
 def identify_user():
     """
@@ -160,14 +162,12 @@ def display_basket(basket, user_name, used_order_numbers):
             else:
                 item_counts[item[0]] = {'price': item[1], 'count': 1}
 
-        
         item_list = list(item_counts.items())
-        
-        
-        for index, (item, stats) in enumerate(item_list, start=1):
-            print_green(f"{index}. {item} - £{stats['price']} (x{stats['count']})")
 
-        user_choice = input("Enter item number to remove, 0 to go back, + to purchase:\n")
+        for index, (item, stats) in enumerate(item_list, start=1):
+            print_green(f"{index}. {item} - £{stats['price']} x{stats['count']}")
+
+        user_choice = input("Item number to remove, 0 to go back, + to purchase:\n")
         if user_choice == '0':
             return False
         elif user_choice == '+':
@@ -217,6 +217,7 @@ def handle_basket(basket, user_name, used_order_numbers):
                 break
             else:
                 print_red("Invalid choice, please enter 1, 2, 3, or 4.\n")
+
 
 def shop_in_category(chosen_category, basket, user_name, used_order_numbers):
     while True:
@@ -365,11 +366,6 @@ def order_number(already_used):
             return order_number
 
 
-
-
-
-
-
 def main():
     print_art("TradeHub", font="standard")
     user_name = identify_user()
@@ -408,5 +404,6 @@ def main():
                     print_red("Invalid choice. Enter a valid number.\n")
             except ValueError:
                 print_red("Invalid input. Please enter a number.\n")
+
 
 main()
