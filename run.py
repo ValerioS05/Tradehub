@@ -47,10 +47,11 @@ def print_red(text):
     print(Fore.RED + text + Style.RESET_ALL)
 # -------------------------------------------------------
 
+# user interaction section
 def identify_user():
     """
     Get name of the user by input of only alphab.
-    return user_name
+    return user_name as string
     """
     while True:
         user_name = input("Welcome to TradeHub, please enter name to start:\n")
@@ -66,7 +67,7 @@ def identify_user():
 def get_categories():
     """
     Gets the worksheet names from spreadsheet excluding purchases
-    Return category_names
+    Return category_names as list
     """
     worksheet_objects = SHEET.worksheets()
     category_names = [
@@ -80,7 +81,7 @@ def get_categories():
 def choose_category(categories):
     """
     let the user choose a category(category = worksheets in spreadsheet)
-    parameter categories
+    Argument categories (list of categories)
     return chosen category (choice_i)
     """
     while True:
@@ -97,8 +98,9 @@ def choose_category(categories):
 
 def get_quantity():
     """
-    handles the quantity that user insert
+    handles the quantity that user input
     Function used in choose_item
+    Return quantity as int 
     """
     while True:
         try:
@@ -117,7 +119,8 @@ def choose_item(category):
     """
     User can choose items stored in the worksheets.
     Items are printed with enumeration.
-    parameter category
+    Argument category (selected category)
+    Return tuple with item,price,quantity
     """
     category_sheet = SHEET.worksheet(category)
     items = category_sheet.get_all_values()
@@ -143,8 +146,8 @@ def choose_item(category):
                 print_red("Invalid choice. Please enter a valid number.\n")
         except ValueError:
             print_red("Invalid input. Please enter a number.\n")
-
-
+# -------------------------------------------------------
+# basket handlers section
 def add_to_basket(basket, item_with_quantity):
     item, price, quantity = item_with_quantity
     for _ in range(quantity):
@@ -224,7 +227,7 @@ def handle_basket(basket, user_name, used_order_numbers):
                 break
             else:
                 print_red("Invalid choice, please enter 1, 2, 3, or 4.\n")
-
+# -------------------------------------------------------
 
 def shop_in_category(chosen_category, basket, user_name, used_order_numbers):
     while True:
