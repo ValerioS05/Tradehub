@@ -149,6 +149,12 @@ def choose_item(category):
 # -------------------------------------------------------
 # basket handlers section
 def add_to_basket(basket, item_with_quantity):
+    """
+    Add chosen item to basket
+    Arguments:
+    basket -> List containting the items
+    item_with_quantity -> Tuple containing chosen item,price,quantity
+    """
     item, price, quantity = item_with_quantity
     for _ in range(quantity):
         basket.append((item, price))
@@ -156,6 +162,17 @@ def add_to_basket(basket, item_with_quantity):
 
 
 def display_basket(basket, user_name, used_order_numbers):
+    """
+    Displays the current items in basket
+    Arguments:
+    basket -> list of items in basket
+    usern_name -> user's name
+    used_order_numbers -> set containing used order numbers
+    
+    return booleans
+    false if basket is empty
+    true otherwise
+    """
     while True:
         if not basket:
             print_red("Your basket is empty.\n")
@@ -205,6 +222,18 @@ def display_basket(basket, user_name, used_order_numbers):
 
 
 def handle_basket(basket, user_name, used_order_numbers):
+    """
+    Handle user basket by giving options on how to proceed
+
+    Arguments:
+    basket -> list of items in basket
+    usern_name -> user's name
+    used_order_numbers -> set containing used order numbers
+
+    return string or boolean
+    "Purcahsed" if True
+    False otherwise 
+    """
     while True:
         result = display_basket(basket, user_name, used_order_numbers)
         if result == 'Purchased':
