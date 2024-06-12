@@ -19,12 +19,13 @@ GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open("market_hub")
 # -------------------------------------------------------
 
+
 # print modifiers section
 def print_art(text, font="standard"):
     """
     Printing ascii art with pyfiglet
     text - text to display
-    font - set as standard 
+    font - set as standard
     """
     try:
         ascii_art = pyfiglet.figlet_format(text, font=font)
@@ -46,6 +47,7 @@ def print_red(text):
     """
     print(Fore.RED + text + Style.RESET_ALL)
 # -------------------------------------------------------
+
 
 # user interaction section
 def identify_user():
@@ -100,7 +102,7 @@ def get_quantity():
     """
     handles the quantity that user input
     Function used in choose_item
-    Return quantity as int 
+    Return quantity as int
     """
     while True:
         try:
@@ -147,6 +149,8 @@ def choose_item(category):
         except ValueError:
             print_red("Invalid input. Please enter a number.\n")
 # -------------------------------------------------------
+
+
 # basket handlers section
 def add_to_basket(basket, item_with_quantity):
     """
@@ -168,7 +172,6 @@ def display_basket(basket, user_name, used_order_numbers):
     basket -> list of items in basket
     usern_name -> user's name
     used_order_numbers -> set containing used order numbers
-    
     return booleans
     false if basket is empty
     true otherwise
@@ -232,7 +235,7 @@ def handle_basket(basket, user_name, used_order_numbers):
 
     return string or boolean
     "Purcahsed" if True
-    False otherwise 
+    False otherwise
     """
     while True:
         result = display_basket(basket, user_name, used_order_numbers)
@@ -256,9 +259,22 @@ def handle_basket(basket, user_name, used_order_numbers):
                 break
             else:
                 print_red("Invalid choice, please enter 1, 2, 3, or 4.\n")
-# -------------------------------------------------------
+
 
 def shop_in_category(chosen_category, basket, user_name, used_order_numbers):
+    """
+    allow user to choose item in chosen category
+
+    Arguments:
+    chosen_category -> selected category
+    basket -> list of items in basket
+    usern_name -> user's name
+    used_order_numbers -> set containing used order numbers
+
+    return
+    string or boolean -> "Purchased" if purchase completed
+    False otherwise
+    """
     while True:
         print_green(f"This is our stock for {chosen_category}:")
         chosen_item = choose_item(chosen_category)
@@ -288,12 +304,15 @@ def shop_in_category(chosen_category, basket, user_name, used_order_numbers):
                     break
             else:
                 print_red("Invalid choice, please enter 1, 2, 3, or 4.\n")
+# -------------------------------------------------------
 
 
+# Finalize section
 def update_headings():
     """
     Update the headings of the Purchases worksheet
     and calculate the starting column for the next purchase.
+    used A1 notation
     """
     purchases_sheet = SHEET.worksheet("Purchases")
     header_row = purchases_sheet.row_values(3)
@@ -309,6 +328,13 @@ def update_headings():
 
 
 def give_feedback(user_name):
+    """
+    Allows user to gives ratings
+    Argument user_name
+
+    returns float if user provide input
+    none otherwise
+    """
     print_green("Please rate TradeHub from 1 to 5:\n")
     print_green("Enter 'skip' to skip giving ratings.\n")
 
@@ -361,6 +387,16 @@ def give_feedback(user_name):
 
 
 def purchase(basket, user_name, already_used):
+    """
+    Process the purchase, updates purchase worksheet
+
+    Arguments:
+    basket -> list of items in basket
+    usern_name -> user's name
+    used_order_numbers -> set containing used order numbers
+
+    return str "Purchased" if purchase , "No items" if basket is empty
+    """
     if not basket:
         print_red("Your basket is empty!\n")
         return "No items"
@@ -401,20 +437,37 @@ def purchase(basket, user_name, already_used):
 
 
 def get_used_orders():
+    """
+    get order n. from purchase worksheet
+
+    return set containing order numbers
+    """
     purchases_sheet = SHEET.worksheet("Purchases")
     order_numbers = purchases_sheet.col_values(2)[1:]
     return set(order_numbers)
 
 
 def order_number(already_used):
+    """
+    generate a UNIQUE order number
+
+    Argument already_used set containing order numbers
+
+    return unique number
+    """
     while True:
         order_number = str(random.randint(00000, 99999))
         if order_number not in already_used:
             already_used.add(order_number)
             return order_number
+# ----------------------------------------------------
 
 
+# Main function
 def main():
+    """
+    Main function organize the work flow of the program
+    """
     print_art("TradeHub", font="standard")
     user_name = identify_user()
     update_headings()
@@ -458,4 +511,5 @@ def main():
                 print_red("Invalid input. Please enter a number.\n")
 
 
+# call main function to start
 main()
