@@ -152,8 +152,20 @@ def display_basket(basket, user_name, used_order_numbers):
             return False
 
         print_green("Current items in your basket:\n")
-        for index, item in enumerate(basket, start=1):
-            print_green(f"{index}. {item[0]} - £{item[1]}")
+
+        item_counts = {}
+        for item in basket:
+            if item[0] in item_counts:
+                item_counts[item[0]]['count'] += 1
+            else:
+                item_counts[item[0]] = {'price': item[1], 'count': 1}
+
+        
+        item_list = list(item_counts.items())
+        
+        
+        for index, (item, stats) in enumerate(item_list, start=1):
+            print_green(f"{index}. {item} - £{stats['price']} (x{stats['count']})")
 
         user_choice = input("Enter item number to remove, 0 to go back, + to purchase:\n")
         if user_choice == '0':
@@ -163,9 +175,19 @@ def display_basket(basket, user_name, used_order_numbers):
             return purchase(basket, user_name, used_order_numbers)
         try:
             choice_index = int(user_choice) - 1
-            if 0 <= choice_index < len(basket):
-                removed_item = basket.pop(choice_index)
-                print_green(f"Removed {removed_item[0]} from the basket.\n")
+            if 0 <= choice_index < len(item_list):
+                removed_item = item_list[choice_index][0]
+
+                for i in range(len(basket)):
+                    if basket[i][0] == removed_item:
+                        basket.pop(i)
+                        break
+
+                item_counts[removed_item]['count'] -= 1
+                if item_counts[removed_item]['count'] == 0:
+                    del item_counts[removed_item]
+
+                print_green(f"Removed {removed_item} from the basket.\n")
             else:
                 print_red("Invalid choice. Please enter a valid number.\n")
         except ValueError:
@@ -378,7 +400,7 @@ def main():
                     shop_result = shop_in_category(chosen_category, basket, user_name, used_order_numbers)
                     if shop_result == "Purchased":
                         print_green("Purchase completed successfully.\n")
-                        print_art("Have a great day!", font="standard")
+                        print_art("Goodbye", font="standard")
                         break
                     else:
                         continue
