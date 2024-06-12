@@ -1,3 +1,4 @@
+# imports and spreadsheet setup section
 import gspread
 import random
 import pyfiglet
@@ -6,21 +7,24 @@ from google.oauth2.service_account import Credentials
 
 just_fix_windows_console()
 
+# Spreadsheet scope
 SCOPE = ["https://www.googleapis.com/auth/spreadsheets",
          "https://www.googleapis.com/auth/drive.file",
          "https://www.googleapis.com/auth/drive"]
 
+# access spreadsheet with credentials
 CREDS = Credentials.from_service_account_file('creds.json')
 SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open("market_hub")
+# -------------------------------------------------------
 
-
+# print modifiers section
 def print_art(text, font="standard"):
     """
-    Printing ascii art
-    text, font parameters
-    prints argument when called
+    Printing ascii art with pyfiglet
+    text - text to display
+    font - set as standard 
     """
     try:
         ascii_art = pyfiglet.figlet_format(text, font=font)
@@ -31,17 +35,17 @@ def print_art(text, font="standard"):
 
 def print_green(text):
     """
-    Printing text with green background
+    Printing text in green
     """
     print(Fore.GREEN + text + Style.RESET_ALL)
 
 
 def print_red(text):
     """
-    Printing text with green background
+    Printing text in red
     """
     print(Fore.RED + text + Style.RESET_ALL)
-
+# -------------------------------------------------------
 
 def identify_user():
     """
@@ -125,7 +129,7 @@ def choose_item(category):
     for index, item in enumerate(items[1:], start=1):
         print_green(f"{index}. {item[0]} - £{item[1]}")
     while True:
-        user_choice = input("\nChoose item by entering number,")
+        user_choice = input("\nChoose item by entering number:\n")
         ("0 to go back:\n")
         if user_choice == '0':
             return None
