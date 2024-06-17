@@ -65,3 +65,11 @@ From within the basket you can also remove items if you like. Note that the remo
 |Unique order number||To ensure that the user "theoretically" will never have the chance to get the same "reference number" as another user , I implemented a simple random generation of 5 numbers adding some identification also over the purchase. Note I said theoretically because the written code goes from 00000 to 99999 so in this case if we go over that amount we could have an issue with processing due to number repetition|
 
 
+### Data model
+- TradeHub uses a spread-sheet data model, allowing flexibility and real-time updates
+
+| Screenshot |Title| Explanation|
+|---|---|---|
+|[Clothes worksheet](/assets/img4rdm/clothes.png)![Clothes list](/assets/img4rdm/clothes.png)|Clothes category|In this worksheet named "clothes" we can find all the items related to this category|
+|[Tech worksheet](/assets/img4rdm/techcategory.png)![Tech worksheet](/assets/img4rdm/techcategory.png)|Tech category|In this worksheet named "tech" we can find all the items related to this category|
+|[Groceries worksheet](/assets/img4rdm/grocerycategory.png)![Groceries worksheet](/assets/img4rdm/grocerycategory.png)|Groceries category|In this worksheet named "groceries" we can find all the items related to this category|
