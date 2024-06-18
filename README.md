@@ -87,3 +87,67 @@ Different way is used in the purchase process , where I created the 2 columns fr
 |[Retrieve Data](/assets/img4rdm/gspreadm2.png)![Retrieve Data](/assets/img4rdm/gspreadm2.png)|Example 2|In this second example we can see how we can select all values from a specific worksheet|
 |[Inspecting worksheet](/assets/img4rdm/gspreadm3.png)![Inspecting worksheet](/assets/img4rdm/gspreadm3.png)|Example 3|In this third example I used methods to check if a specific cell (in this case the top row) contains data/values or is empty. The code in the example has been implemented to don't rewrite the previous purchase(I will get back to this in the bugs and fixes)|
 |[Recording the purchase](/assets/img4rdm/gspreadm4.png)![Recording the purchase](/assets/img4rdm/gspreadm4.png)|Example 4|The fourth example it's the entire process that records the purchase in the "purchase" worksheet. It updates specific cells , for example iterating through the items in the basket and updating the cells starting from the third row (3+i). next_column from the previous example, and item[n] selects the chosen data/value. In simple words ,the first block of code updates the items, the second chunk updates the total price , the third block is getting the order number and the fifth chunk is about the average rating(everything works in a very similar way).(Note that the fourth block of code is printing in the terminal but nothing is affecting the spreadsheet)|
+
+### Testing
+
+TradeHub has been tested using the Python Linter provided by Code Institute.  
+[Link to Linter](https://pep8ci.herokuapp.com/)
+TradeHub has been tested in different platforms:
+- VScode
+- GitPod
+- Heroku
+
+I tested TradeHub from the deployed link by Heroku on:
+- Chrome
+- Microsoft Edge
+- Mobile Devices
+- Tablets
+- Laptop
+
+To note that I tried testing from `IOS` devices , but as tutors said ,it is a known issue that the pack provided from Code Institute does't work properly on this kind of operative system.
+All I can see/say from IOS devices is that the terminal starts without issues.
+
+#### Manual Testing
+- As I wrote before TradeHub is very stubborn. I tried many times to follow prompts with incorrect answers of many kind. But in a good way TradeHub doesn't let the user get the upperhand following a simple but rigid flow.
+- Here are some examples:
+
+| Screenshot |Title| Explanation|
+|---|---|---|
+|[Wrong Username](/assets/img4rdm/manualTesting.png)![Wrong Username](/assets/img4rdm/manualTesting.png)|Username test|In this example we can see how the error handling gives a feedback anytime I tried to insert something that is not acceptable (numbers,spacing, symbols and mixed characters)|
+|[Wrong Category](/assets/img4rdm/categorytest.png)![Wrong Category](/assets/img4rdm/categorytest.png)|Category test|As the example before nothing gets accepted except for the correct numbers|
+|[Empty Basket](/assets/img4rdm/basketEmpty.png)![Empty Basket](/assets/img4rdm/basketEmpty.png)|Basket test|In here I tried to enter in the basket but being empty TradeHub realizes that and gives you a feedback about it.|
+|[Wrong Items](/assets/img4rdm/itemsTest.png)![Wrong Items](/assets/img4rdm/itemsTest.png)|Items test|In this example as the previous tests I tried to insert various different characters , but "successfully" TradeHub reacted in the right way.In this case we also have the quantity tested succesfully.|
+|[Basket Test](/assets/img4rdm/basketTest.png)![Basket Test](/assets/img4rdm/basketTest.png)|Basket test|Same as previous examples the test was successfull. Nothing passed except for the accepted values.|
+|[Rating Test](/assets/img4rdm/ratingTest.png)![Rating Test](/assets/img4rdm/ratingTest.png)|Rating test|Here as well the error handlers do the right "job" giving access to the next step only entering the right values.|
+
+
+### Bugs and Fixes
+
+| Screenshot |Title| Explanation|
+|---|---|---|
+|[First Bug](/assets/img4rdm/bug1.png)![First Bug](/assets/img4rdm/bug1.png)|Wrong value|During the development a bug found was that in the worksheets the number values were being formatted in the wrong way. To solve this problem I changed the format to float so doesn't round the number giving the exact printed value.(To note that the value was just not displayed correctly, but the cell contained the right data.)|
+|[Second Bug](/assets/img4rdm/Bug3.png)![Second Bug](/assets/img4rdm/Bug3.png)|Wrong Return|In this case I found the bug during the manual testing. I found the problem when I was tring to insert wrong values. For example when going for the basket and insterting on purpose a wrong value, I was getting redirected to the previous step instead of asking for the right value.What I did to solve this was returning different value or enhancing the error handling to return the wanted result|
+|[Second Bug.1](/assets/img4rdm/bug4.png)![Second Bug.1](/assets/img4rdm/bug4.png)|2nd Bug.1|More examples|
+|[Second Bug.2](/assets/img4rdm/bug5.png)![Second Bug.2](/assets/img4rdm/bug5.png)|2nd Bug.2|More examples|
+|[Third Bug](/assets/img4rdm/bug6.png)![Third Bug](/assets/img4rdm/bug6.png)|Third Bug|The third bug found was that I wasn't updating correctly the purchase worksheet. Every new purchase was overriding the previous one, and that would be a big issue in a real world case.The solution was simple , I implemented in the code a way to find out if the columns were empty or already used. If already used we just simply needed to find the next empty spot|
+- Some other bugs were related to indexing and updating the worksheets but nothing that needed major changes.
+
+#### Fixes
+
+- The only big fixes that have been done is the reformatting of huge function to smoller ones. Giving a better readability and more efficency.
+- The other big fix that I did was moving around functions repositioning some functions where I thought was logically following the workflow.
+- One small fix but not less important was the amount of item the user can purchase. Before I didn't insert a limit so the user could buy n^inf amount of items at once. This was giving hard time to TradeHub that was breaking down after 3/4 minutes. What I did  to fix this problem was giving the user a limit of 5 items at time. Solving the problem of processing too many items at once. 
+
+### Remaining Bugs or fixes
+
+- Something that need to be fixed is between the code and the spreadsheet. Basically is a size problem where once the columns are finished the program doesn't find anymore space where to record the new purchases. I increased the size of the spreadsheet manually to solve the initial problem.
+- Same issue would be for the order number. I choose to give the user a 5 digit "reference n." that goes from 0 to 99999. It would be a problem to reach (even if large) that amount. Giving the program no way to continue after all numbers available are used.
+
+
+### Validation
+
+- To validate the code I used PEP8 [CI Python Linter](https://pep8ci.herokuapp.com/)
+![Validation](/assets/img4rdm/pythonLinter.png)
+
+
+
