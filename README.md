@@ -66,7 +66,15 @@ From within the basket you can also remove items if you like. Note that the remo
 
 
 ### Data model
-- TradeHub uses a spread-sheet data model, allowing flexibility and real-time updates
+- TradeHub uses a spread-sheet data model, allowing flexibility and real-time updates.
+#### Structure
+- The three worksheets are organized in two columns, the first column contains an heading ("item", first row) followed by a list of items. The second column contains an heading ("price", first row) followed by the related prices.
+- The purchases worksheet is empty to start. When a purchase is made through TradeHub it will be displayed in similar fashion as the previous ones.Starting from the first column, the first row will contain "Name" on the left hand side, following we will have the second column with the unique order n.
+The second row has been left empty to give some spacing.
+The third row starting from the first column will contain the items, the more items purchased the more rows we will have. Every item is followed in the second column and same row, by the respective price value.
+Once the items are finished we will have a "Total £" followed on same row by the sum of the prices previously displayed.
+Under the Total £, we will have Rating (note that this is an optional value.) The value related to rating is calculate in an average of 5 numbers with a range from 0 to 5. If the cell on the right hand side of "Rating" is empty , it means that the user skipped the ratings at any moment.
+- If the purchases worksheet will be too "populated" feel free to delete previous purchases. 
 
 | Screenshot |Title| Explanation|
 |---|---|---|
