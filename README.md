@@ -157,5 +157,70 @@ All I can see/say from IOS devices is that the terminal starts without issues.
 - To validate the code I used PEP8 [CI Python Linter](https://pep8ci.herokuapp.com/)
 ![Validation](/assets/img4rdm/pythonLinter.png)
 
+- To have a "second opinion is also used [Pythonium syntax checker](https://pythonium.net/linter)
+![Second Validation](/assets/img4rdm/secondValidation.png)
+
+### Deployment
+
+- TradeHub is hosted in:
+    - Heroku 
+    - GitHub
+- Data side is currently in Google Sheets.
+- TradeHub has been built on Gitpod.
+
+#### How to deploy on Github
+
+1. Go to **Github**
+2. Access the **Repository**
+3. Select **Settings**
+4. On the left side you need to get into **Pages**
+5. You will see **Build and deployment**.
+6. Under the **Branch** select **main**
+7. Click **save**
+8. If correctly executed the page will indicate the succesful **deployment** and the link related.
+
+#### Cloning
+1. From repository on Github click the green button **Code** .
+2. After clicking you will see **Clone**.
+3. You can **download Zip** and extract files to run locally via browser.
+4. Or cloning via **Git** with **HTTPS**.
+5. To clone via Git make sure you select the directory where you want to hold your repository
+6. Use **git clone** followed by the HTTPS seen on previous steps.
+7. Once you run the command you will see **example**: Cloning into **My-repo**...
+8. To verify if succesful you can use in the terminal the command **ls**.
+9. This will show you the list of folders and files in the directory.
+
+#### Heroku deployment
+1. Ensure that all your dependencies are listed in the requirements.txt file by running the command: **pip3 freeze > requirements.txt** in your Python **terminal**. This will add all your requirements to the **requirements.txt** file.
+2. Visit the **Heroku** website, sign up by clicking the button in the top right corner, then **log in**.
+3. Click on **New** in the top right corner and select **Create new app**.
+4. Choose a unique name for your app, set your region to for example "Europe"(you can choose the region that you are in), and click **Create app**.
+5. Go to the **Settings** tab, then click **Reveal Config Vars** under **Config Vars**.
+6. Enter **CREDS** as the first **KEY**, and paste the entire contents of your **creds.json** file (including the curly braces) into the **VALUE** field, then click **Add**.
+7. Enter **PORT** as the second **KEY**, set **8000** as the **VALUE**, and click **Add**.
+8. Scroll down to the Buildpacks section, click **Add buildpack**, and select Python. Then add another buildpack and select **Node.js**. Ensure that Python is listed above Node.js.
+9. Scroll back up and go to the **Deploy** tab.
+Under **Deployment method**, select **GitHub**, search for your GitHub repository by name, and select the correct one.
+10. Scroll down to **Automatic deploy**, choose the **main branch** so that any changes pushed to GitHub will **automatically update** the Heroku app.
+11. Scroll down to **Manual deploy** and click **Deploy Branch**.
+Once the deployment is complete, click on **View** to open a new tab and display your program.
 
 
+#### Google API set up
+1. Create a **Google account** and a **Google Sheet**, naming it preferably the same as your GitHub repository.
+2. Visit **Google Cloud Platform**, click **Select a project**, then **New project**, and name it, matching your GitHub repository and Google Sheets name, then click **Create**.
+3. Select your newly created project from the **Select project** menu.
+4. On your project dashboard, go to **"API & Services" > "Library"**.
+5. Enable the **Google Drive API** by searching for it and clicking **Enable**.
+6. Click **Create credentials**, select **Google Drive API** for the API, **Application Data** for data access, and answer **No** to using it with Compute Engine, Kubernetes Engine, App Engine, or Cloud Functions. Click **Next** and then **Done**.
+7. Enter a service account name, matching your Google Cloud project name if available, and click **Create**.
+8. In **Grant this service account access to project**, select the role **"Basic" > "Editor"** and click **Continue**. Skip **Grant users access** and click **Done**.
+9. Click on the newly created service account, go to the **Keys** tab, and click **"Add Key" > "Create New Key"**. Select **JSON** and click **Create** to download the .json file.
+10. Return to **"API & Services" > "Library"**, search for **Google Sheets API**, and click **Enable**.
+
+#### Linking API to Gitpod
+1. Drag and drop the downloaded .json file into your **Gitpod workspace** and rename it to **creds.json**.
+2. Open the **creds.json** file and copy the email address next to **client_email** (without quotes).
+3. Open your **Google Sheets** file, click the **Share** button, and paste the copied email address.
+4. Ensure **Editor** is selected, untick **Notify People**, and click **Share**.
+> We need to make sure that **creds.json** is added to **.gitignore** because it contains private credentials.
