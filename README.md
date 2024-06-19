@@ -126,13 +126,13 @@ Under the Total £, we will have **Rating** (note that this is an optional value
 
 #### How the process works
 The aim here was to have a simple but strong/powerful way to fetch and store data.  
-I opted for the `A1 notation` with the `gspread`methods used in this kind of structures.
+I opted for the **A1 notation** with the **gspread** methods used in this kind of structures.
 Having the first three categories filled in the worksheet makes it easy to target the cells needed in the program. 
 Different way is used in the purchase process , where I created the 2 columns from within the code and uploaded them to the "purchases" worksheet.
 
 | Screenshot |Title| Explanation|
 |---|---|---|
-|[Retrieve Titles](/assets/img4rdm/gspreadm1.png)![Retrieve Titles](/assets/img4rdm/gspreadm1.png)|Example 1|In this example we can see how the worksheets titles are retrieved or ignored using `gspread` library, in this case the tiles are used to print the category names.|
+|[Retrieve Titles](/assets/img4rdm/gspreadm1.png)![Retrieve Titles](/assets/img4rdm/gspreadm1.png)|Example 1|In this example we can see how the worksheets titles are retrieved or ignored using **gspread** library, in this case the tiles are used to print the category names.|
 |[Retrieve Data](/assets/img4rdm/gspreadm2.png)![Retrieve Data](/assets/img4rdm/gspreadm2.png)|Example 2|In this second example we can see how we can select all values from a specific worksheet|
 |[Inspecting worksheet](/assets/img4rdm/gspreadm3.png)![Inspecting worksheet](/assets/img4rdm/gspreadm3.png)|Example 3|In this third example I used methods to check if a specific cell (in this case the top row) contains data/values or is empty. The code in the example has been implemented to don't rewrite the previous purchase(I will get back to this in the bugs and fixes)|
 |[Recording the purchase](/assets/img4rdm/gspreadm4.png)![Recording the purchase](/assets/img4rdm/gspreadm4.png)|Example 4|The fourth example it's the entire process that records the purchase in the "purchase" worksheet. It updates specific cells , for example iterating through the items in the basket and updating the cells starting from the third row (3+i). next_column from the previous example, and item[n] selects the chosen data/value. In simple words ,the first block of code updates the items, the second chunk updates the total price , the third block is getting the order number and the fifth chunk is about the average rating(everything works in a very similar way).(Note that the fourth block of code is printing in the terminal but nothing is affecting the spreadsheet)|
@@ -153,7 +153,7 @@ I tested TradeHub from the deployed link by Heroku on:
 - Tablets
 - Laptop
 
-To note that I tried testing from `IOS` devices , but as tutors said ,it is a known issue that the pack provided from Code Institute does't work properly on this kind of operative system.
+To note that I tried testing from **IOS** devices , but as tutors said ,it is a known issue that the pack provided from Code Institute does't work properly on this kind of operative system.
 All I can see/say from IOS devices is that the terminal starts without issues.
 
 #### Manual Testing
@@ -205,10 +205,10 @@ All I can see/say from IOS devices is that the terminal starts without issues.
 ### Deployment
 
 - TradeHub is hosted in:
-    - Heroku 
-    - GitHub
-- Data side is currently in Google Sheets.
-- TradeHub has been built on Gitpod.
+    - **Heroku**
+    - **GitHub**
+- Data side is currently in **Google Sheets**.
+- TradeHub has been built on **Gitpod**.
 
 #### How to deploy on Github
 
