@@ -3,7 +3,7 @@
 # TradeHub Readme
 
 TradeHub is an interactive console based shopping application written in Python.
-TradeHub interacts Google Sheet to manage inventory and record purchases.
+TradeHub interacts with Google Sheet to manage inventory and record purchases.
 
 ## Links to main pages.
 [TradeHub Spreadsheet ](https://docs.google.com/spreadsheets/d/1_wZuteOHdY8UPF8X3yymTwRSMhRYLE7cCkzrjmuUVsM/edit?gid=0#gid=0)
@@ -11,18 +11,18 @@ TradeHub interacts Google Sheet to manage inventory and record purchases.
 [TradeHub Application](https://tradehub-pj3-abd458db728b.herokuapp.com/)
 
 ### Let's explore TradeHub
-- TradeHub has been built with a preset template offered from Code Institute.
-- Folders modified for the project's realization are:
-    - run.py 
+- TradeHub has been built with a preset template offered from **Code Institute**.
+- **Folders** modified for the project's realization are:
+    - **run.py**
         - Here is where the code for the application has been implemented
-    - requirements.txt
+    - **requirements.txt**
         - Here we have the listed packages required to run the application smoothly once deployed or shared. 
         Making sure that everyone that works or will work on the project can install the exact samre requirements ,vital to run TradeHub.
-    - README.md 
+    - **README.md**
         - Here we have the guidance and explanation over the application.
-    - Important mention is that credential have been added to get authorization and authentication (to read and write datas).
+    - **Important** mention is that credential have been added to get authorization and authentication (to read and write datas).
       Will be explained the "How to" later in this README.
-    - Assets Folder
+    - **Assets Folder**
         - img4rdm Folder, contains .png files exclusively for this README.
 
 ### How it works
@@ -58,23 +58,63 @@ From within the basket you can also remove items if you like. Note that the remo
 |[Items management](/assets/img4rdm/items.png)![Items list](/assets/img4rdm/items.png)|After category selection we will have the items list|In here we can see the items list. From the spreadsheet prospective we have the items listed in a column followed by another column with related prices. Inside the app we can see the list and the prices with relative numbers on the left hand side. To select an item you'll need to insert the respective number , followed by the quantity that you like.|
 |[Basket management](/assets/img4rdm/basket.png)![Basket screen](/assets/img4rdm/basket.png)|Basket is accessible from the options list at any moment with the only exception if the basket doesn't contains items| In the basket we will find the items that we would like to add to our purchase, we can see the items preceded by a number and followed by the quantity. In the basket we can choose also to remove items or comeback to where we were before entering it.|
 |[Purchase processing](/assets/img4rdm/purchase.png)![Purchase screen](/assets/img4rdm/purchase.png)|Following step after inserting the name,presents you categories|The purchase takes count of all the items in the basket previously selected , provide a list of these items, the total price and a unique order number|
-|Other features|||
-|Interactive shopping flow||The aim here is to get the user to work out smoothly the navigation like it is in everyday life: get an item or more, put in the basket, remove it if we don't need it or was the wrong item, check the basket to see if we can proceed to the checkout. The program offers clear guidance throughout the entire process giving clear indications and redirecting if needed we simple feedbacks|
-|Google Sheets||Google sheets provided me the way how to store our stock in different categories and different items for each category. It also allowed me to record/store the final purchase giving back real-time updates and retrievals|
-|Error handling||My aim  here is to provide as much help as possible to the user cutting all the edges over wrong inputs. The user is presented with many prompts and I tried to make sure that anytime something goes sideways the program will be able to explain the user how to proceed correctly, we can say that TradeHub is a very "stubborn" application in a user friendly way|
-|Unique order number||To ensure that the user "theoretically" will never have the chance to get the same "reference number" as another user , I implemented a simple random generation of 5 numbers adding some identification also over the purchase. Note I said theoretically because the written code goes from 00000 to 99999 so in this case if we go over that amount we could have an issue with processing due to number repetition|
+|**Other features**|||
+|**Interactive shopping flow**||The aim here is to get the user to work out smoothly the navigation like it is in everyday life: get an item or more, put in the basket, remove it if we don't need it or was the wrong item, check the basket to see if we can proceed to the checkout. The program offers clear guidance throughout the entire process giving clear indications and redirecting if needed we simple feedbacks|
+|**Google Sheets**||Google sheets provided me the way how to store our stock in different categories and different items for each category. It also allowed me to record/store the final purchase giving back real-time updates and retrievals|
+|**Error handling**||My aim  here is to provide as much help as possible to the user cutting all the edges over wrong inputs. The user is presented with many prompts and I tried to make sure that anytime something goes sideways the program will be able to explain the user how to proceed correctly, we can say that TradeHub is a very "stubborn" application in a user friendly way|
+|**Unique order number**||To ensure that the user "theoretically" will never have the chance to get the same "reference number" as another user , I implemented a simple random generation of 5 numbers adding some identification also over the purchase. Note I said theoretically because the written code goes from 00000 to 99999 so in this case if we go over that amount we could have an issue with processing due to number repetition|
 
+### Future features
+| Feature | Present | Future |
+|---|---|---|
+|**Specifics ratings**|At the moment when the user insert ratings feedbacks at the end of the purchase the only thing that we get is the average rating. This gives an overall performance review based on user preferences|What I would like to see a score for each prompt giving the chance to improve over a specific TradeHub's aspect.|
+|**Stock**|In this moment the user can buy an infinite number of items|I would like to implement stock management so the user experience is enhanced even more making TradeHub more real-time/real life based.Also the items avalilability would be increased and more categories will be added.|
+|**Shipping**|Once the purchase has been made TradeHub cuts off with an order recorded to a spreadsheet| As a feature I would like to insert a "form" to implement shipping methods.|
+|**Payments**|The user at the moment can buy anything at any price without worrying|I would like to implement payment methods and budgets, so the user can make sure to don't go overbudget and choose how to pay(obviously at the moment this is a project so no payment methods will be added or any charge will be applied).|
+|**User class/Recognition**|In this moment a returning user starts TradeHub like a first time user due to a simple "username" prompt.|I would like to implement credentials to recognize the user when coming back. This would allow to track user preferences and details(if we count the future features as well), making the user experience even better and TradeHub more trustworthy.|
+- Overall the future features will be a great improvement for both sides (user/admin), making the user journey much easier and stright forward , and the admin more in control over the platform and analytics.
+|**Database Reset/Rewrite**|At the moment the worksheet is getting populated everytime someone makes a purchase, making the database overpopulated|Implementing from within the code , a function that regolates the amount of purchases , or replacing overtime dated purchases with new ones|
 
+### UI
+
+- TradeHub uses **ASCII art with pyfiglet** and **colored** text with **colorama** enhancing the visual design. The colors are:
+    - Mainly green for general text and **positive** feedbacks.
+    - Promts are standard color detaching them from plain text.
+    - **Negative** feedback for example from error handling are colored red giving the user an understanding of what is going on making it user friendly even for a first timer.
+
+Overall the coloring gives **consistency** even in a simple application like TradeHub.
+
+### UX
+- As discussed before in the Features the User Experience is focused on **functionalities, navigation , feedbacks and interaction**
+- The user can move around TradeHub wihtout losing the sense of position or getting lost in infinite loops. 
+- The **feedbacks** are helping the user to move freely and **improve the experience**. 
+- We can speak also about the **ratings** that the user can give at the end of the purchase, showing that TradeHub cares and wants to **improve** for the user **satisfaction**. 
+- The purchase process also makes sure that the user gets a **confirmation** of what has been processed, receving a **detailed summary** of their purchase enhancing **transparency and identification**(unique order n.).
+- By focusing on these **UX elements**, TradeHub builds trust with its users. Trust is critical in online marketplaces, where users need **assurance** that their transactions are **secure**, their feedback is **valued**, and their overall **experience is positive**.
+
+### User Stories
+- As new user
+    - I want to **easily navigate** and **explore** TradeHub without feeling overwhelmed.
+        -   TradeHub gives a simple "registration" process and makes it easy to navigate with **clear instructions** how to get through.
+- As a shopper
+    - I want to browse different categories and items, i want to know prices and see my basket to have everything **under control**.
+        - Each category displays a range of different items related to the selected category. Every item its followed by a price.
+        Giving the user the chance to review the basket removing or adding items to it. Resembling a seamless **shopping experience**.
+### As developer
+- As "admin" of TradeHub , I wanted to **manage** categories , **update** inventory and **view sales analytics** to ensure the platform operates smoothly and **improves overtime** in different aspects, giving a **great experience** to the user and chances to improve to the developer.
+    - TradeHub is **built to record** user interaction over purchases and ratings. Enabling me to **retrieve datas** over user preferences(TradeHub perfomances) and where to **improve the platform** reviewing ratings.
+#### Real user feedback
+- During the TredeHub development, I was giving to people close to me the chance to try TradeHub, giving me different views and opinions. This helped also the implementation of some feature like the order n. and the ratings and some other small details like adding the chance to purchase directly from the basket.
 ### Data model
-- TradeHub uses a spread-sheet data model, allowing flexibility and real-time updates.
+- TradeHub uses a **spread-sheet data model**, allowing flexibility and real-time updates.
 #### Structure
-- The three worksheets are organized in two columns, the first column contains an heading ("item", first row) followed by a list of items. The second column contains an heading ("price", first row) followed by the related prices.
-- The purchases worksheet is empty to start. When a purchase is made through TradeHub it will be displayed in similar fashion as the previous ones.Starting from the first column, the first row will contain "Name" on the left hand side, following we will have the second column with the unique order n.
+- The **three worksheets** are organized in two columns, the first column contains an heading ("item", first row) followed by a **list of items**. The second column contains an heading ("price", first row) followed by the **related prices**.
+- The purchases worksheet is empty to start. When a purchase is made through TradeHub it will be displayed in similar fashion as the previous ones.Starting from the first column, the first row will contain **"Name"** on the left hand side, following we will have the second column with the **unique order n.**
 The second row has been left empty to give some spacing.
 The third row starting from the first column will contain the items, the more items purchased the more rows we will have. Every item is followed in the second column and same row, by the respective price value.
-Once the items are finished we will have a "Total £" followed on same row by the sum of the prices previously displayed.
-Under the Total £, we will have Rating (note that this is an optional value.) The value related to rating is calculate in an average of 5 numbers with a range from 0 to 5. If the cell on the right hand side of "Rating" is empty , it means that the user skipped the ratings at any moment.
-- If the purchases worksheet will be too "populated" feel free to delete previous purchases. 
+Once the items are finished we will have a **"Total £"** followed on same row by the **sum of the prices** previously displayed.
+Under the Total £, we will have **Rating** (note that this is an optional value.) The value related to rating is calculate in an **average of 5** numbers with a range from 0 to 5. If the cell on the right hand side of "Rating" is empty , it means that the user skipped the ratings at any moment.
+> If the purchases worksheet will be too "populated" feel free to delete previous purchases. 
 
 | Screenshot |Title| Explanation|
 |---|---|---|
@@ -224,3 +264,20 @@ Once the deployment is complete, click on **View** to open a new tab and display
 3. Open your **Google Sheets** file, click the **Share** button, and paste the copied email address.
 4. Ensure **Editor** is selected, untick **Notify People**, and click **Share**.
 > We need to make sure that **creds.json** is added to **.gitignore** because it contains private credentials.
+
+### Technologies used
+- TradeHub was built using **Python** and libraries
+- Packages
+    - **Gspread**
+    - **Colorama**
+    - **Pyfiglet**
+- For deployment was used **Heroku**.
+- **Gitpod** as editor.
+- **Google sheet** as database.
+- **Github** is hosting the repository
+
+
+### Credits
+
+- [Miro.com](https://miro.com/app/dashboard/) was used to create the flowchart
+- Template create by Code Institute for Deployment Terminal.
