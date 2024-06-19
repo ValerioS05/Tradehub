@@ -16,46 +16,45 @@ TradeHub interacts with Google Sheet to manage inventory and record purchases.
     - **run.py**
         - Here is where the code for the application has been implemented
     - **requirements.txt**
-        - Here we have the listed packages required to run the application smoothly once deployed or shared. 
-        Making sure that everyone that works or will work on the project can install the exact samre requirements ,vital to run TradeHub.
+        - Listing the packages required to run the application smoothly once deployed or shared. This ensures that everyone working on or joining the project can install the exact same requirements, which are vital for running TradeHub.
     - **README.md**
         - Here we have the guidance and explanation over the application.
-    - **Important** mention is that credential have been added to get authorization and authentication (to read and write datas).
+    - **Important** It's important to mention that credentials have been added for authorization and authentication (to read and write data).
       Will be explained the "How to" later in this README.
     - **Assets Folder**
         - img4rdm Folder, contains .png files exclusively for this README.
 
 ### How it works
 ![Flowchart](/assets/img4rdm/Flowchartpj3.png)
-- As we can see here , we have a flowchart explaining the application workflow.
-- Important to mention is that the flowchart has been created before the application was built.
+- As we can see here , we have a **flowchart** explaining the application workflow.
+- Important to mention is that the flowchart has been **created before** the application was built.
 
 #### Walkthrough
-- The "front page" of TradeHub will greet you! Welcoming you to the app and asks for a "username" to start.
-- Inserting the right username will be key to pass through validation.
-- Next step is selceting the category that you like to get into. The selection happens inserting the numbers appearing on the left side of the catery list.
-- Once selecting the category TradeHub print you a list of items related to the category chosen. The items are listed in the same way as the category giving the app an easy understanding on how to continue navigating and a feeling of consistency.
-- Once the item is selected you can choose the quantity. To mention that there's not a stock limit so you can have as many as you like.
-To mention is that there's a limit per purchase so you can purchase a max of five items at time.
-- Now that we set the quantity the items will be sent to the basket.
-- This time you will be presented a list of options to continue shopping in the same category, change category, finish the purchase or view your basket.
-- The basket is reachable in the same list as the categories, note that the basket is not accessible if the basket is empty.
+- The "front page" of TradeHub will greet you! Welcoming you to the app and asks for a **"username"** to start.
+- Inserting the right username will be key to pass through **validation**.
+- Next step is **selecting the category** that you like to get into. The selection happens inserting the numbers appearing on the left side of the category list.
+- Once selected the category TradeHub prints you a **list of items** related to the category chosen. The items are listed in the same way as the category giving the app an **easy understanding** on how to continue navigating and a feeling of consistency.
+- Once the item is selected, you can **choose the quantity**. It's worth mentioning that there's no stock limit, so you can purchase as many as you like."
+To mention is that there's a limit per purchase so you can purchase a **max of five** items at time.
+- Now that we've set the quantity, the items will be added to the basket.
+- This time you will be presented a list of options to continue shopping in the **same category, change category, finish the purchase or view your basket**.
+- The **basket** is reachable in the same list as the categories, note that the basket is not accessible if the basket is empty.
 When the basket contains items we have the chance to continue shopping or finishing the purchase(purchase will be explained later)
-From within the basket you can also remove items if you like. Note that the removing process is one by one.
+From within the basket you can also **remove items** if you like. Note that the removing process is **one by one**.
 - If you want to continue to shop feel free to follow the previous steps.
-- Finalizing the purchase is a simple step, you can select the final purchase from the option list or from the basket.
+- Finalizing the **purchase** is a simple step, you can select the final purchase from the option list or from the basket.
 - When selecting to end the purchase you will be given the list of items that you selected, the total price and a unique order number.
-- Ending the purchase will trigger a simple feedback survey, you can choose to skip it if you like. Leaving a feedback will let the dev improve the site and it is very quick!. 
-- The purchase and the average feedback will be recorded in the "market_hub" spreadsheet.("Google spreadsheet") with your name, the unique order number, the list of items with relative prices , the total price and the average rating that you gave.
-- Clit/tap on the Run program button if you like to start again. 
+- Ending the purchase will trigger a simple **feedback survey**, you can choose to **skip** it if you like. Leaving a feedback will let the dev improve the site and it is very quick!. 
+-The **purchase** and the **average feedback** will be **recorded** in the **"market_hub"** spreadsheet (Google Sheets) along with your **name, the unique order number, the list of items with their prices, the total price, and the average rating you provided**.
+- Click/tap on the **Run program** button if you like to start again. 
 
 
 ### Features
 | Screenshot | Note | Explanation|
 |---|---|---|
-|[Welcome screen and user identification](/assets/img4rdm/home.png) ![Skeleton of landing page](/assets/img4rdm/home.png)|The landing screen|This is the first screen that you will see when landing. You are presented with the TradeHub's banner, this gives a simple but effective personalization to the app. Under it you have to insert a name to be able to continue. The name is stored with the complete purchase order enabling identification|
+|[Welcome screen and user identification](/assets/img4rdm/home.png) ![Skeleton of landing page](/assets/img4rdm/home.png)|The landing screen|This is the first screen that you will see when landing. You are presented with the TradeHub banner, this gives a simple but effective personalization to the app. Under it you have to insert a name to be able to continue. The name is stored with the complete purchase order enabling identification|
 |[Category management](/assets/img4rdm/gotCategory.png)![Category list](/assets/img4rdm/gotCategory.png)|Following step after inserting the name,presents you categories|Here we have a list of categories, this list we fetched it from the "market_hub" spreadsheet. Each category is a worksheet with relative title. This allowes the user to select a category. |
-|[Items management](/assets/img4rdm/items.png)![Items list](/assets/img4rdm/items.png)|After category selection we will have the items list|In here we can see the items list. From the spreadsheet prospective we have the items listed in a column followed by another column with related prices. Inside the app we can see the list and the prices with relative numbers on the left hand side. To select an item you'll need to insert the respective number , followed by the quantity that you like.|
+|[Items management](/assets/img4rdm/items.png)![Items list](/assets/img4rdm/items.png)|After category selection we will have the items list|Here we can see the list of items.. From the spreadsheet prospective we have the items listed in a column followed by another column with related prices. Inside the app we can see the list and the prices with relative numbers on the left hand side. To select an item you'll need to insert the respective number , followed by the quantity that you like.|
 |[Basket management](/assets/img4rdm/basket.png)![Basket screen](/assets/img4rdm/basket.png)|Basket is accessible from the options list at any moment with the only exception if the basket doesn't contains items| In the basket we will find the items that we would like to add to our purchase, we can see the items preceded by a number and followed by the quantity. In the basket we can choose also to remove items or comeback to where we were before entering it.|
 |[Purchase processing](/assets/img4rdm/purchase.png)![Purchase screen](/assets/img4rdm/purchase.png)|Following step after inserting the name,presents you categories|The purchase takes count of all the items in the basket previously selected , provide a list of these items, the total price and a unique order number|
 |**Other features**|||
@@ -67,13 +66,15 @@ From within the basket you can also remove items if you like. Note that the remo
 ### Future features
 | Feature | Present | Future |
 |---|---|---|
-|**Specifics ratings**|At the moment when the user insert ratings feedbacks at the end of the purchase the only thing that we get is the average rating. This gives an overall performance review based on user preferences|What I would like to see a score for each prompt giving the chance to improve over a specific TradeHub's aspect.|
+|**Specifics ratings**|At the moment when the user insert ratings feedbacks at the end of the purchase the only thing that we get is the average rating. This gives an overall performance review based on user preferences|What I would like to see a score for each prompt giving the chance to improve over a specific TradeHub aspect.|
 |**Stock**|In this moment the user can buy an infinite number of items|I would like to implement stock management so the user experience is enhanced even more making TradeHub more real-time/real life based.Also the items avalilability would be increased and more categories will be added.|
 |**Shipping**|Once the purchase has been made TradeHub cuts off with an order recorded to a spreadsheet| As a feature I would like to insert a "form" to implement shipping methods.|
-|**Payments**|The user at the moment can buy anything at any price without worrying|I would like to implement payment methods and budgets, so the user can make sure to don't go overbudget and choose how to pay(obviously at the moment this is a project so no payment methods will be added or any charge will be applied).|
+|**Payments**|Currently, the user can buy as much as the user likes without any restrictions.|I would like to implement payment methods and budgets, so the user can make sure to don't go overbudget and choose how to pay(obviously at the moment this is a project so no payment methods will be added or any charge will be applied).|
 |**User class/Recognition**|In this moment a returning user starts TradeHub like a first time user due to a simple "username" prompt.|I would like to implement credentials to recognize the user when coming back. This would allow to track user preferences and details(if we count the future features as well), making the user experience even better and TradeHub more trustworthy.|
-- Overall the future features will be a great improvement for both sides (user/admin), making the user journey much easier and stright forward , and the admin more in control over the platform and analytics.
 |**Database Reset/Rewrite**|At the moment the worksheet is getting populated everytime someone makes a purchase, making the database overpopulated|Implementing from within the code , a function that regolates the amount of purchases , or replacing overtime dated purchases with new ones|
+|**Security measure**| At the moment the only "security measure" that is implemented its the locked worksheets (categories only, purchase is open), making sure that TradeHub works properly.| I would like to implement security measures over confidential details and the data structure that is easily accessible|
+- Overall the future features will be a great improvement for both sides (user/admin), making the user journey much easier and stright forward , and the admin more in control over the platform and analytics.|
+
 
 ### UI
 
@@ -184,7 +185,8 @@ All I can see/say from IOS devices is that the terminal starts without issues.
 
 - The only big fixes that have been done is the reformatting of huge function to smoller ones. Giving a better readability and more efficency.
 - The other big fix that I did was moving around functions repositioning some functions where I thought was logically following the workflow.
-- One small fix but not less important was the amount of item the user can purchase. Before I didn't insert a limit so the user could buy n^inf amount of items at once. This was giving hard time to TradeHub that was breaking down after 3/4 minutes. What I did  to fix this problem was giving the user a limit of 5 items at time. Solving the problem of processing too many items at once. 
+- One small fix but not less important was the amount of item the user can purchase. Before I didn't insert a limit so the user could buy n^inf amount of items at once. This was giving hard time to TradeHub that was breaking down after 3/4 minutes. What I did  to fix this problem was giving the user a limit of 5 items at time. Solving the problem of processing too many items at once.
+- Another small fix that was done, was about the length of some lines of code/comments. Some of the lines reached 120 characters where the limit is much lower. Now all the file has been redacted to follow this standards with the help of PEP8 linter.
 
 ### Remaining Bugs or fixes
 
@@ -224,7 +226,7 @@ All I can see/say from IOS devices is that the terminal starts without issues.
 2. After clicking you will see **Clone**.
 3. You can **download Zip** and extract files to run locally via browser.
 4. Or cloning via **Git** with **HTTPS**.
-5. To clone via Git make sure you select the directory where you want to hold your repository
+5. To clone via Git, make sure you select the directory where you want to store your repository.
 6. Use **git clone** followed by the HTTPS seen on previous steps.
 7. Once you run the command you will see **example**: Cloning into **My-repo**...
 8. To verify if succesful you can use in the terminal the command **ls**.
