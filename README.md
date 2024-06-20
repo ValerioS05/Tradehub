@@ -28,6 +28,8 @@ TradeHub interacts with Google Sheet to manage inventory and record purchases.
 ![Flowchart](/assets/img4rdm/Flowchartpj3.png)
 - As we can see here , we have a **flowchart** explaining the application workflow.
 - Important to mention is that the flowchart has been **created before** the application was built.
+- Main thing that "diverge" from the flowchart presented above, is the basket accessibility. Now the basket can be accessed easily from different options.
+Also when I created the flowchart, initially the idea was to have the basket in the spreadsheet, but during the deployment I opted to have the **basket "recorded" in a list** within the code.
 
 #### Walkthrough
 - The "front page" of TradeHub will greet you! Welcoming you to the app and asks for a **"username"** to start.
