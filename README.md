@@ -6,11 +6,26 @@ TradeHub is an interactive console based shopping application written in Python.
 TradeHub interacts with Google Sheet to manage inventory and record purchases.
 
 ## Links to main pages.
+
 [TradeHub Spreadsheet ](https://docs.google.com/spreadsheets/d/1_wZuteOHdY8UPF8X3yymTwRSMhRYLE7cCkzrjmuUVsM/edit?gid=0#gid=0)
 
 [TradeHub Application](https://tradehub-pj3-abd458db728b.herokuapp.com/)
 
+## Readme content
+
+1. [Exploring TradeHub](#lets-explore-tradehub)
+2. [Features](#features)
+3. [UI](#ui)
+4. [UX](#ux)
+5. [Data Model](#data-model)
+6. [Testing](#testing)
+7. [Bugs and Fixes](#bugs-and-fixes)
+8. [Validartion](#validation)
+9. [Deployment](#deployment)
+10. [Techonologies](#technologies)
+11. [Credits](#credits)
 ### Let's explore TradeHub
+
 - TradeHub has been built with a preset template offered from **Code Institute**.
 - **Folders** modified for the project's realization are:
     - **run.py**
@@ -25,6 +40,7 @@ TradeHub interacts with Google Sheet to manage inventory and record purchases.
         - img4rdm Folder, contains .png files exclusively for this README.
 
 ### How it works
+
 ![Flowchart](/assets/img4rdm/Flowchartpj3.png)
 - As we can see here , we have a **flowchart** explaining the application workflow.
 - Important to mention is that the flowchart has been **created before** the application was built.
@@ -32,6 +48,7 @@ TradeHub interacts with Google Sheet to manage inventory and record purchases.
 Also when I created the flowchart, initially the idea was to have the basket in the spreadsheet, but during the deployment I opted to have the **basket "recorded" in a list** within the code.
 
 #### Walkthrough
+
 - The "front page" of TradeHub will greet you! Welcoming you to the app and asks for a **"username"** to start.
 - Inserting the right username will be key to pass through **validation**.
 - Next step is **selecting the category** that you like to get into. The selection happens inserting the numbers appearing on the left side of the category list.
@@ -52,6 +69,7 @@ From within the basket you can also **remove items** if you like. Note that the 
 
 
 ### Features
+
 | Screenshot | Note | Explanation|
 |---|---|---|
 |[Welcome screen and user identification](/assets/img4rdm/home.png) ![Skeleton of landing page](/assets/img4rdm/home.png)|The landing screen|This is the first screen that you will see when landing. You are presented with the TradeHub banner, this gives a simple but effective personalization to the app. Under it you have to insert a name to be able to continue. The name is stored with the complete purchase order enabling identification|
@@ -66,6 +84,7 @@ From within the basket you can also **remove items** if you like. Note that the 
 |**Unique order number**||To ensure that the user "theoretically" will never have the chance to get the same "reference number" as another user , I implemented a simple random generation of 5 numbers adding some identification also over the purchase. Note I said theoretically because the written code goes from 00000 to 99999 so in this case if we go over that amount we could have an issue with processing due to number repetition|
 
 ### Future features
+
 | Feature | Present | Future |
 |---|---|---|
 |**Specifics ratings**|At the moment when the user insert ratings feedbacks at the end of the purchase the only thing that we get is the average rating. This gives an overall performance review based on user preferences|What I would like to see a score for each prompt giving the chance to improve over a specific TradeHub aspect.|
@@ -88,6 +107,7 @@ From within the basket you can also **remove items** if you like. Note that the 
 Overall the coloring gives **consistency** even in a simple application like TradeHub.
 
 ### UX
+
 - As discussed before in the Features the User Experience is focused on **functionalities, navigation , feedbacks and interaction**
 - The user can move around TradeHub wihtout losing the sense of position or getting lost in infinite loops. 
 - The **feedbacks** are helping the user to move freely and **improve the experience**. 
@@ -96,6 +116,7 @@ Overall the coloring gives **consistency** even in a simple application like Tra
 - By focusing on these **UX elements**, TradeHub builds trust with its users. Trust is critical in online marketplaces, where users need **assurance** that their transactions are **secure**, their feedback is **valued**, and their overall **experience is positive**.
 
 ### User Stories
+
 - As new user
     - I want to **easily navigate** and **explore** TradeHub without feeling overwhelmed.
         -   TradeHub gives a simple "registration" process and makes it easy to navigate with **clear instructions** how to get through.
@@ -104,13 +125,17 @@ Overall the coloring gives **consistency** even in a simple application like Tra
         - Each category displays a range of different items related to the selected category. Every item its followed by a price.
         Giving the user the chance to review the basket removing or adding items to it. Resembling a seamless **shopping experience**.
 ### As developer
+
 - As "admin" of TradeHub , I wanted to **manage** categories , **update** inventory and **view sales analytics** to ensure the platform operates smoothly and **improves overtime** in different aspects, giving a **great experience** to the user and chances to improve to the developer.
     - TradeHub is **built to record** user interaction over purchases and ratings. Enabling me to **retrieve datas** over user preferences(TradeHub perfomances) and where to **improve the platform** reviewing ratings.
 #### Real user feedback
+
 - During the TredeHub development, I was giving to people close to me the chance to try TradeHub, giving me different views and opinions. This helped also the implementation of some feature like the order n. and the ratings and some other small details like adding the chance to purchase directly from the basket.
 ### Data model
+
 - TradeHub uses a **spread-sheet data model**, allowing flexibility and real-time updates.
 #### Structure
+
 - The **three worksheets** are organized in two columns, the first column contains an heading ("item", first row) followed by a **list of items**. The second column contains an heading ("price", first row) followed by the **related prices**.
 - The purchases worksheet is empty to start. When a purchase is made through TradeHub it will be displayed in similar fashion as the previous ones.Starting from the first column, the first row will contain **"Name"** on the left hand side, following we will have the second column with the **unique order n.**
 The second row has been left empty to give some spacing.
@@ -127,6 +152,7 @@ Under the Total £, we will have **Rating** (note that this is an optional value
 |[Purchases worksheet](/assets/img4rdm/purchasesheet.png)![Purchases worksheet](/assets/img4rdm/purchasesheet.png)|Purchases|In this worksheet named "purchases" we have the processed purchases. It is recorded as two column expanding downwards depending on the amount of items purchased. As we can see in the screenshot at the top of the column we have the "username" and the order number. Following down we have the item on the left followed by the price on the right and so on for the other items. At the bottom of the items list we have the total price, and under the total price we can see the ratings. If the rating value is empty it mean that the user decided to skip the ratings. To note that if the user skips the ratings at any time ,the value will not be recorded.|
 
 #### How the process works
+
 The aim here was to have a simple but strong/powerful way to fetch and store data.  
 I opted for the **A1 notation** with the **gspread** methods used in this kind of structures.
 Having the first three categories filled in the worksheet makes it easy to target the cells needed in the program. 
@@ -151,14 +177,18 @@ TradeHub has been tested in different platforms:
 I tested TradeHub from the deployed link by Heroku on:
 - Chrome
 - Microsoft Edge
-- Mobile Devices
-- Tablets
-- Laptop
+- Mozilla Firefox
+- Opera
+- Safari
+- Mobile Devices(Android/IOS)
+- Tablets(Android/IOS)
+- Laptop(Windows/Mac)
 
 To note that I tried testing from **IOS** devices , but as tutors said ,it is a known issue that the pack provided from Code Institute does't work properly on this kind of operative system.
 All I can see/say from IOS devices is that the terminal starts without issues.
 
 #### Manual Testing
+
 - As I wrote before TradeHub is very stubborn. I tried many times to follow prompts with incorrect answers of many kind. But in a good way TradeHub doesn't let the user get the upperhand following a simple but rigid flow.
 - Here are some examples:
 
@@ -269,7 +299,7 @@ Once the deployment is complete, click on **View** to open a new tab and display
 4. Ensure **Editor** is selected, untick **Notify People**, and click **Share**.
 > We need to make sure that **creds.json** is added to **.gitignore** because it contains private credentials.
 
-### Technologies used
+### Technologies
 - TradeHub was built using **Python** and libraries
 - Packages
     - **Gspread**
